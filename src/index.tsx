@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './components/app/app';
-import { Setting } from './const';
+import App from './app/app';
+import { AuthorizationStatus, Setting } from './const';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -9,6 +9,6 @@ const root = ReactDOM.createRoot(
 
 root.render(
   <React.StrictMode>
-    <App placeCardCount={ Setting.PlaceCardCount } />
+    <App placeCardCount={ Setting.PlaceCardCount } authStatus={ AuthorizationStatus.Auth } />
   </React.StrictMode>
 );
