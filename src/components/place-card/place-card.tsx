@@ -1,3 +1,5 @@
+import { JSX } from 'react';
+
 function PlaceCard(): JSX.Element {
   return (
     <article className="cities__card place-card">
