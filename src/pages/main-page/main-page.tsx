@@ -1,14 +1,19 @@
-import PlaceCard from '../../components/place-card/place-card.tsx';
+import { JSX } from 'react';
+import { Helmet } from 'react-helmet-async';
+import PlaceCard from '../../components/place-card/place-card';
 
 type MainPageProps = {
   placeCardCount: number;
 };
 
-function MainPage({ placeCardCount }: MainPageProps) {
+function MainPage({ placeCardCount }: MainPageProps): JSX.Element {
   const placeCards = Array.from({ length: placeCardCount }, (_, index) => index);
 
   return (
     <div className="page page--gray page--main">
+      <Helmet>
+        <title>6 cities</title>
+      </Helmet>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
