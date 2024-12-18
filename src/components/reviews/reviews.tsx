@@ -1,4 +1,4 @@
-import ReviewForm from '../review-form.tsx';
+import ReviewForm from '../review-form/review-form.tsx';
 import { JSX, useState } from 'react';
 import ReviewItem from '../review-item/review-item.tsx';
 import { Review } from '../../types/review.ts';

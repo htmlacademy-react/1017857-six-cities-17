@@ -1,6 +1,7 @@
 import { FormEvent, useRef } from 'react';
 import dayjs from 'dayjs';
-import { Review } from '../types/review.ts';
+import { Review } from '../../types/review.ts';
+import uniqid from 'uniqid';
 
 type ReviewFormProps = {
   onSubmit: (review: Review) => void;
@@ -19,7 +20,8 @@ function ReviewForm({ onSubmit }: ReviewFormProps) {
         },
         rating: Number(formData.get('rating')),
         comment: String(formData.get('review')),
-        date: dayjs().format('YYYY-MM-DD')
+        date: dayjs().format('YYYY-MM-DD'),
+        id: uniqid(),
       };
       onSubmit(result);
     }
