@@ -1,12 +1,12 @@
 export const Setting = {
-  PlaceCardCount: 5
+  PlaceCardCount: 6
 };
 
 export enum AppRoute {
   Main = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Offer = '/offer'
+  Offer = '/offer/:id',
 }
 
 export enum AuthorizationStatus {
