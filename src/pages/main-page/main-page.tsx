@@ -1,15 +1,33 @@
-import { JSX } from 'react';
+import { JSX, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Offer } from '../../types/offer.ts';
 import PlacesList from '../../components/places-list/places-list.tsx';
 import Header from '../../components/header/header.tsx';
+import Map from '../../components/map/map.tsx';
+import { CITY } from '../../mocks/city.ts';
 
 type MainPageProps = {
   placeCardCount: number;
   offers: Offer[];
 };
 
+const CITY_NAME: string = 'Paris';
+
 function MainPage({ placeCardCount, offers }: MainPageProps): JSX.Element {
+  const points: Offer[] = offers.filter((offer) => offer.city.name === CITY_NAME);
+  const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
+
+  const handleListItemHover = (listItemNameId: string | null) => {
+    const currentPoint: Offer | undefined = points.find((point) =>
+      point.id === listItemNameId,
+    );
+    if (currentPoint) {
+      setSelectedPointId(currentPoint.id);
+    } else {
+      setSelectedPointId(null);
+    }
+  };
+
   return (
     <div className="page page--gray page--main">
       <Helmet>
@@ -74,10 +92,10 @@ function MainPage({ placeCardCount, offers }: MainPageProps): JSX.Element {
                   <li className="places__option" tabIndex={0}>Top rated first</li>
                 </ul>
               </form>
-              <PlacesList placeCardCount={placeCardCount} places={offers} />
+              <PlacesList placeCardCount={placeCardCount} places={offers} onListItemHover={handleListItemHover} />
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={CITY} points={points} selectedPointId={selectedPointId} />
             </div>
           </div>
         </div>
