@@ -14,3 +14,8 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export const MarkerUrl = {
+  DEFAULT: './img/pin.svg',
+  CURRENT: './img/pin-active.svg'
+};
