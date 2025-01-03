@@ -15,7 +15,7 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export const Marker = {
+export const MarkerUrl = {
   DEFAULT: './img/pin.svg',
   CURRENT: './img/pin-active.svg'
 };

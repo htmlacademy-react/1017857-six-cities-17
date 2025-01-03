@@ -2,23 +2,23 @@ import leaflet, { Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap.ts';
-import { Marker } from '../../const.ts';
-import { City, Offer } from '../../types/offer.ts';
+import { MarkerUrl } from '../../const.ts';
+import { Location, Offer } from '../../types/offer.ts';
 
 type MapProps = {
-  city: City;
+  city: Location;
   points: Offer[];
   selectedPointId: string | null;
 };
 
 const defaultCustomIcon = new Icon({
-  iconUrl: Marker.DEFAULT,
+  iconUrl: MarkerUrl.DEFAULT,
   iconSize: [27, 39],
   iconAnchor: [13, 39],
 });
 
 const currentCustomIcon = new Icon({
-  iconUrl: Marker.CURRENT,
+  iconUrl: MarkerUrl.CURRENT,
   iconSize: [27, 39],
   iconAnchor: [13, 39],
 });
@@ -26,7 +26,7 @@ const currentCustomIcon = new Icon({
 function Map(props: MapProps) {
   const { city, points, selectedPointId } = props;
   const mapRef = useRef(null);
-  const map = useMap(mapRef, city);
+  const map = useMap({ mapRef, city });
 
   useEffect(() => {
     if (map) {
