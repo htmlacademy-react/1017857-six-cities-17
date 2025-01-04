@@ -17,7 +17,7 @@ function FavoriteLocation({ city, offers }: FavoriteLocationProps) {
         </div>
       </div>
       <div className="favorites__places">
-        {offers.map((offer) => <PlaceCard key={offer.id} place={offer} variant={'horizontal'}/>)}
+        {offers.map((offer) => <PlaceCard key={offer.id} place={offer} variant={'favorites'}/>)}
       </div>
     </li>
   );

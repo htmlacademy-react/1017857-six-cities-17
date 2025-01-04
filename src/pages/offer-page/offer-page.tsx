@@ -1,19 +1,22 @@
 import { JSX } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Link, useParams } from 'react-router-dom';
-import { OfferExtended } from '../../types/offer.ts';
+import { Offer, OfferExtended } from '../../types/offer.ts';
 import { AppRoute } from '../../const.ts';
 import OfferCard from '../../components/offer-card/offer-card.tsx';
 import Neighbourhood from '../../components/neighbourhood/neighbourhood.tsx';
 import { reviews } from '../../mocks/reviews.ts';
+import { neighbourhood } from '../../mocks/neighbourhood.ts';
 
 type OfferPageProps = {
   offersExtended: OfferExtended[];
+  offers: Offer[];
 };
 
-function OfferPage({ offersExtended }: OfferPageProps): JSX.Element {
+function OfferPage({ offersExtended, offers }: OfferPageProps): JSX.Element {
   const { id } = useParams();
-  const currentOffer: OfferExtended | undefined = offersExtended.find((offer: OfferExtended) => offer.id === id);
+  const currentOfferExt: OfferExtended | undefined = offersExtended.find((offer: OfferExtended) => offer.id === id);
+
   return (
     <div className="page">
       <Helmet>
@@ -49,8 +52,8 @@ function OfferPage({ offersExtended }: OfferPageProps): JSX.Element {
       </header>
 
       <main className="page__main page__main--offer">
-        {currentOffer && <OfferCard currentOffer={currentOffer} reviewsData={reviews} />}
-        <Neighbourhood />
+        {currentOfferExt && <OfferCard currentOffer={currentOfferExt} reviewsData={reviews} neighbourhoods={neighbourhood} offers={offers} />}
+        <Neighbourhood places={neighbourhood} />
       </main>
     </div>
   );

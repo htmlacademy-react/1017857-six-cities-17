@@ -24,7 +24,7 @@ function PlacesList({ places, placeCardCount, onListItemHover }: PlacesListProps
           place={place}
           activeId={activeOffer}
           onHover={handleListItemHover}
-          variant={'vertical'}
+          variant={'cities'}
         />
       ))};
     </div>

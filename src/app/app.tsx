@@ -37,7 +37,7 @@ function App({ placeCardCount, authStatus, offers, offersExtended }: AppProps): 
           />
           <Route
             path={ AppRoute.Offer }
-            element={ <OfferPage offersExtended={offersExtended} /> }
+            element={ <OfferPage offersExtended={offersExtended} offers={offers} /> }
           />
           <Route
             path={ AppRoute.Favorites }

@@ -1,19 +1,25 @@
 import Image from '../image/image.tsx';
-import { OfferExtended } from '../../types/offer.ts';
+import { Offer, OfferExtended } from '../../types/offer.ts';
 import { convertRating } from '../../utils.ts';
 import WhatInside from '../what-inside/what-inside.tsx';
 import OfferHost from '../offer-host/host.tsx';
 import Reviews from '../reviews/reviews.tsx';
 import { Review } from '../../types/review.ts';
-import MapOffer from '../map/map-offer.tsx';
+import Map from '../map/map.tsx';
+import cn from 'classnames';
 
 type OfferCardProps = {
   currentOffer: OfferExtended;
   reviewsData: Review[];
+  neighbourhoods: Offer[];
+  offers: Offer[];
 }
 
-function OfferCard({ currentOffer, reviewsData }: OfferCardProps) {
+function OfferCard({ currentOffer, reviewsData, neighbourhoods, offers }: OfferCardProps) {
   const currentReviews = reviewsData.filter((review) => currentOffer.reviews?.includes(review.id));
+  const offer = offers.find((item: Offer) => item.id === currentOffer.id);
+  const nearPlaces: Offer[] = (!neighbourhoods.some((item: Offer) => item.id === offer?.id) && offer) ? [...neighbourhoods, offer] : neighbourhoods;
+
   return (
     <section className="offer">
       <div className="offer__gallery-container container">
@@ -39,9 +45,11 @@ function OfferCard({ currentOffer, reviewsData }: OfferCardProps) {
               {currentOffer.title}
             </h1>
             <button
-              className={currentOffer.isFavorite ?
-                'offer__bookmark-button offer__bookmark-button--active button' :
-                'offer__bookmark-button button'}
+              className={cn(
+                'offer__bookmark-button',
+                { 'offer__bookmark-button--active': currentOffer.isFavorite },
+                'button'
+              )}
               type="button"
             >
               <svg className="offer__bookmark-icon" width="31" height="33">
@@ -77,7 +85,12 @@ function OfferCard({ currentOffer, reviewsData }: OfferCardProps) {
           <Reviews reviewsData={currentReviews} />
         </div>
       </div>
-      <MapOffer />
+      <Map
+        city={currentOffer.city.location}
+        points={nearPlaces}
+        selectedPointId={currentOffer.id}
+        variant={'offer'}
+      />
     </section>
   );
 }

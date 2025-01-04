@@ -1,10 +1,10 @@
 export const neighbourhood = [
   {
-    'id': '87ce0a00-6838-476d-a60a-19f65d1ca52b',
-    'title': 'The Pondhouse - A Magical Place',
-    'type': 'apartment',
-    'price': 272,
-    'previewImage': 'https://16.design.htmlacademy.pro/static/hotel/10.jpg',
+    'id': '29453a39-e1fc-4479-9fd4-ea6c126887b6',
+    'title': 'Tile House',
+    'type': 'house',
+    'price': 228,
+    'previewImage': 'https://16.design.htmlacademy.pro/static/hotel/7.jpg',
     'city': {
       'name': 'Paris',
       'location': {
@@ -18,16 +18,16 @@ export const neighbourhood = [
       'longitude': 2.330499,
       'zoom': 16
     },
-    'isFavorite': false,
+    'isFavorite': true,
     'isPremium': false,
-    'rating': 1.8
+    'rating': 2.1
   },
   {
-    'id': '03fa52e3-5c65-47e7-90a2-beec4883d130',
-    'title': 'Perfectly located Castro',
-    'type': 'hotel',
-    'price': 165,
-    'previewImage': 'https://16.design.htmlacademy.pro/static/hotel/8.jpg',
+    'id': '3e96aa38-e103-4b89-9aea-f172e03a6123',
+    'title': 'Loft Studio in the Central Area',
+    'type': 'room',
+    'price': 223,
+    'previewImage': 'https://16.design.htmlacademy.pro/static/hotel/17.jpg',
     'city': {
       'name': 'Paris',
       'location': {
@@ -43,14 +43,14 @@ export const neighbourhood = [
     },
     'isFavorite': false,
     'isPremium': true,
-    'rating': 4.4
+    'rating': 4.1
   },
   {
-    'id': '66eb0b3f-db45-4219-9eec-94e0b33841c2',
-    'title': 'The house among olive ',
+    'id': 'd156ba93-a0a5-49b8-abdf-6b52debbd8b4',
+    'title': 'Waterfront with extraordinary view',
     'type': 'apartment',
-    'price': 336,
-    'previewImage': 'https://16.design.htmlacademy.pro/static/hotel/18.jpg',
+    'price': 249,
+    'previewImage': 'https://16.design.htmlacademy.pro/static/hotel/16.jpg',
     'city': {
       'name': 'Paris',
       'location': {
@@ -65,7 +65,7 @@ export const neighbourhood = [
       'zoom': 16
     },
     'isFavorite': false,
-    'isPremium': false,
-    'rating': 4.9
-  }
+    'isPremium': true,
+    'rating': 1
+  },
 ];
