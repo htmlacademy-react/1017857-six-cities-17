@@ -5,7 +5,7 @@ import WhatInside from '../what-inside/what-inside.tsx';
 import OfferHost from '../offer-host/host.tsx';
 import Reviews from '../reviews/reviews.tsx';
 import { Review } from '../../types/review.ts';
-import Map from '../map/map.tsx';
+import MapOffer from '../map/map-offer.tsx';
 
 type OfferCardProps = {
   currentOffer: OfferExtended;
@@ -77,7 +77,7 @@ function OfferCard({ currentOffer, reviewsData }: OfferCardProps) {
           <Reviews reviewsData={currentReviews} />
         </div>
       </div>
-      <Map />
+      <MapOffer />
     </section>
   );
 }
