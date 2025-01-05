@@ -95,7 +95,7 @@ function MainPage({ placeCardCount, offers }: MainPageProps): JSX.Element {
               <PlacesList placeCardCount={placeCardCount} places={offers} onListItemHover={handleListItemHover} />
             </section>
             <div className="cities__right-section">
-              <Map city={CITY.location} points={points} selectedPointId={selectedPointId} />
+              <Map city={CITY.location} points={points} selectedPointId={selectedPointId} variant={'cities'} />
             </div>
           </div>
         </div>

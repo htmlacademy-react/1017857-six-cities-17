@@ -4,11 +4,13 @@ import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap.ts';
 import { MarkerUrl } from '../../const.ts';
 import { Location, Offer } from '../../types/offer.ts';
+import cn from 'classnames';
 
 type MapProps = {
   city: Location;
   points: Offer[];
   selectedPointId: string | null;
+  variant: 'cities' | 'offer';
 };
 
 const defaultCustomIcon = new Icon({
@@ -24,7 +26,7 @@ const currentCustomIcon = new Icon({
 });
 
 function Map(props: MapProps) {
-  const { city, points, selectedPointId } = props;
+  const { city, points, selectedPointId, variant } = props;
   const mapRef = useRef(null);
   const map = useMap({ mapRef, city });
 
@@ -47,7 +49,14 @@ function Map(props: MapProps) {
 
   return (
     <section
-      className="cities__map map"
+      style={{
+        height: variant === 'offer' ? '580px' : 'auto'
+      }}
+      className = {cn(
+        { 'cities__map': variant === 'cities' },
+        { 'offer__map': variant === 'offer' },
+        'map'
+      )}
       ref={mapRef}
     />
   );
