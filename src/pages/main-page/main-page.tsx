@@ -8,17 +8,20 @@ import { useAppSelector } from '../../hooks';
 import Locations from '../../components/locations/locations.tsx';
 import { cities } from '../../mocks/city.ts';
 import PlacesSort from '../../components/places-sort/places-sort.tsx';
+import { DEFAULT_SORT, SortType } from '../../const.ts';
+import { sortOffersByPriceAscending, sortOffersByPriceDescending, sortOffersByRating } from '../../utils.ts';
 
 type MainPageProps = {
   placeCardCount: number;
   offers: Offer[];
 };
 
-
 function MainPage({ placeCardCount, offers }: MainPageProps): JSX.Element {
   const city = useAppSelector((state) => state.city);
   const points: Offer[] = offers.filter((offer) => offer.city.name === city.name);
   const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
+  const [currentOption, setCurrentOption] = useState<string>(DEFAULT_SORT);
+
   const handleListItemHover = (listItemNameId: string | null) => {
     const currentPoint: Offer | undefined = points.find((point) =>
       point.id === listItemNameId,
@@ -29,6 +32,19 @@ function MainPage({ placeCardCount, offers }: MainPageProps): JSX.Element {
       setSelectedPointId(null);
     }
   };
+
+  const sortedPoints = (() => {
+    switch (currentOption) {
+      case SortType.PriceLowToHigh:
+        return sortOffersByPriceAscending(points);
+      case SortType.PriceHighToLow:
+        return sortOffersByPriceDescending(points);
+      case SortType.TopRatedFirst:
+        return sortOffersByRating(points);
+      default:
+        return points;
+    }
+  })();
 
   return (
     <div className="page page--gray page--main">
@@ -44,8 +60,15 @@ function MainPage({ placeCardCount, offers }: MainPageProps): JSX.Element {
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
               <b className="places__found">{points.length} places to stay in {city.name}</b>
-              <PlacesSort />
-              <PlacesList placeCardCount={placeCardCount} places={points} onListItemHover={handleListItemHover} />
+              <PlacesSort
+                currentOption={currentOption}
+                onOptionChange={setCurrentOption}
+              />
+              <PlacesList
+                placeCardCount={placeCardCount}
+                places={sortedPoints}
+                onListItemHover={handleListItemHover}
+              />
             </section>
             <div className="cities__right-section">
               <Map key={city.name} city={city.location} points={points} selectedPointId={selectedPointId} variant={'cities'} />
