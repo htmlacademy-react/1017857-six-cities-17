@@ -8,7 +8,7 @@ import { useAppSelector } from '../../hooks';
 import Locations from '../../components/locations/locations.tsx';
 import { cities } from '../../mocks/city.ts';
 import PlacesSort from '../../components/places-sort/places-sort.tsx';
-import { DEFAULT_SORT, SortType } from '../../const.ts';
+import { SortType } from '../../const.ts';
 import { sortOffersByPriceAscending, sortOffersByPriceDescending, sortOffersByRating } from '../../utils.ts';
 
 type MainPageProps = {
@@ -20,7 +20,7 @@ function MainPage({ placeCardCount, offers }: MainPageProps): JSX.Element {
   const city = useAppSelector((state) => state.city);
   const points: Offer[] = offers.filter((offer) => offer.city.name === city.name);
   const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
-  const [currentOption, setCurrentOption] = useState<string>(DEFAULT_SORT);
+  const [currentOption, setCurrentOption] = useState<SortType>(SortType.Popular);
 
   const handleListItemHover = (listItemNameId: string | null) => {
     const currentPoint: Offer | undefined = points.find((point) =>

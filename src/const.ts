@@ -9,8 +9,6 @@ export enum AppRoute {
   Offer = '/offer/:id',
 }
 
-export const DEFAULT_SORT = 'pop';
-
 export enum AuthorizationStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',

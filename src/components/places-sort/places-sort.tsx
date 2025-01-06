@@ -10,7 +10,7 @@ type PlaceOptionProps = {
 
 type PlacesSortProps = {
   currentOption: SortType;
-  onOptionChange: (option: string) => void;
+  onOptionChange: (option: SortType) => void;
 };
 
 function PlaceOption({ text, isActive, onClick }: PlaceOptionProps) {
@@ -30,7 +30,7 @@ function PlaceOption({ text, isActive, onClick }: PlaceOptionProps) {
 function PlacesSort({ currentOption, onOptionChange }: PlacesSortProps) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const handleOptionClick = (key: string) => {
+  const handleOptionClick = (key: SortType) => {
     onOptionChange(key);
     setIsOpen(false);
   };
