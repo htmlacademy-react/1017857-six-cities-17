@@ -6,7 +6,7 @@ import Header from '../../components/header/header.tsx';
 import Map from '../../components/map/map.tsx';
 import { useAppSelector } from '../../hooks';
 import Locations from '../../components/locations/locations.tsx';
-import { cities } from '../../mocks/city.ts';
+import { cities } from '../../const.ts';
 import PlacesSort from '../../components/places-sort/places-sort.tsx';
 import { SortType } from '../../const.ts';
 import { sortOffersByPriceAscending, sortOffersByPriceDescending, sortOffersByRating } from '../../utils.ts';
