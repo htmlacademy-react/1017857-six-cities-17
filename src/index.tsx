@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './app/app';
-import { AuthorizationStatus, Setting } from './const';
+import { Setting } from './const';
 import { offersExt } from './mocks/offers-ext.ts';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import { fetchOfferAction } from './store/api-actions.ts';
+import { checkAuthAction, fetchOfferAction } from './store/api-actions.ts';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 store.dispatch(fetchOfferAction());
+store.dispatch(checkAuthAction());
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -16,9 +19,9 @@ const root = ReactDOM.createRoot(
 root.render(
   <React.StrictMode>
     <Provider store={ store }>
+      <ToastContainer />
       <App
         placeCardCount={ Setting.PlaceCardCount }
-        authStatus={ AuthorizationStatus.Auth }
         offersExtended={ offersExt }
       />
     </Provider>
