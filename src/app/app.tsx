@@ -1,6 +1,6 @@
 import { JSX } from 'react';
 import MainPage from '../pages/main-page/main-page.tsx';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { AppRoute, AuthorizationStatus } from '../const.ts';
 import LoginPage from '../pages/login-page/login-page.tsx';
@@ -11,24 +11,26 @@ import FavoritesPage from '../pages/favorites-page/favorites-page.tsx';
 import { Offer, OfferExtended } from '../types/offer.ts';
 import LoadingScreen from '../components/loading-screen/loading-screen.tsx';
 import { useAppSelector } from '../hooks';
+import HistoryRouter from '../components/history-route/history-route.tsx';
+import browserHistory from '../browser-history.ts';
 
 type AppProps = {
   placeCardCount: number;
-  authStatus: AuthorizationStatus;
   offersExtended: OfferExtended[];
 }
 
-function App({ placeCardCount, authStatus, offersExtended }: AppProps): JSX.Element {
+function App({ placeCardCount, offersExtended }: AppProps): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
   const offers: Offer[] = useAppSelector((state) => state.offers);
-  if (isOffersDataLoading) {
+  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
     return (
       <LoadingScreen />
     );
   }
   return (
     <HelmetProvider>
-      <BrowserRouter>
+      <HistoryRouter history={browserHistory}>
         <Routes>
           <Route
             path={ AppRoute.Main }
@@ -50,7 +52,7 @@ function App({ placeCardCount, authStatus, offersExtended }: AppProps): JSX.Elem
           <Route
             path={ AppRoute.Favorites }
             element={
-              <PrivateRoute authorizationStatus={ authStatus }>
+              <PrivateRoute authorizationStatus={ authorizationStatus }>
                 <FavoritesPage offers={offers} />
               </PrivateRoute>
             }
@@ -60,7 +62,7 @@ function App({ placeCardCount, authStatus, offersExtended }: AppProps): JSX.Elem
             element={ <NotFoundPage /> }
           />
         </Routes>
-      </BrowserRouter>
+      </HistoryRouter>
     </HelmetProvider>
   );
 }
