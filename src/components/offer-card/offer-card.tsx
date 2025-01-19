@@ -1,5 +1,5 @@
 import Image from '../image/image.tsx';
-import { Offer, OfferExtended } from '../../types/offer.ts';
+import { City, Offer, OfferExtended } from '../../types/offer.ts';
 import { convertRating } from '../../utils.ts';
 import WhatInside from '../what-inside/what-inside.tsx';
 import OfferHost from '../offer-host/host.tsx';
@@ -7,19 +7,23 @@ import Reviews from '../reviews/reviews.tsx';
 import { Review } from '../../types/review.ts';
 import Map from '../map/map.tsx';
 import cn from 'classnames';
+import { useAppSelector } from '../../hooks';
 
 type OfferCardProps = {
   currentOffer: OfferExtended;
   reviewsData: Review[];
   neighbourhoods: Offer[];
-  offers: Offer[];
 }
 
-function OfferCard({ currentOffer, reviewsData, neighbourhoods, offers }: OfferCardProps) {
-  const currentReviews = reviewsData.filter((review) => currentOffer.reviews?.includes(review.id));
-  const offer = offers.find((item: Offer) => item.id === currentOffer.id);
-  const nearPlaces: Offer[] = (!neighbourhoods.some((item: Offer) => item.id === offer?.id) && offer) ? [...neighbourhoods, offer] : neighbourhoods;
-
+function OfferCard({ currentOffer, reviewsData, neighbourhoods }: OfferCardProps) {
+  const city: City = useAppSelector((state) => state.city);
+  const offers: Offer[] = useAppSelector((state) => state.offers);
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const current: Offer | undefined = offers.find((offer) => offer.id === currentOffer.id);
+  let places: Offer[] | null = [];
+  if (current) {
+    places = [...neighbourhoods, current];
+  }
   return (
     <section className="offer">
       <div className="offer__gallery-container container">
@@ -82,12 +86,12 @@ function OfferCard({ currentOffer, reviewsData, neighbourhoods, offers }: OfferC
           </div>
           <WhatInside goods={currentOffer.goods} />
           <OfferHost host={currentOffer.host} />
-          <Reviews reviewsData={currentReviews} />
+          <Reviews authorizationStatus={authorizationStatus} reviewsData={reviewsData}/>
         </div>
       </div>
       <Map
-        city={currentOffer.city.location}
-        points={nearPlaces}
+        city={city.location}
+        points={places}
         selectedPointId={currentOffer.id}
         variant={'offer'}
       />

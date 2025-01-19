@@ -105,4 +105,8 @@ export enum APIRoute {
   Offers = '/offers',
   Login = '/login',
   Logout = '/logout',
+  Comments = '/comments',
+  Favorites = '/favorite'
 }
+
+export const MAX_REVIEWS = 10;
