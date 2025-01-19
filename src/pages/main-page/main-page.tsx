@@ -46,6 +46,7 @@ function MainPage({ placeCardCount, offers }: MainPageProps): JSX.Element {
     }
   })();
 
+
   return (
     <div className="page page--gray page--main">
       <Helmet>

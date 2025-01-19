@@ -19,7 +19,7 @@ export type OfferExtended = Omit<Offer, 'previewImage'> & {
   bedrooms: number;
   maxAdults: number;
   reviews: string[] | null;
-}
+};
 
 export type Location = {
   latitude: number;
@@ -36,4 +36,9 @@ export type Host = {
   isPro: boolean;
   name: string;
   avatarUrl: string;
+}
+
+export type Favorite = {
+  offerId: string;
+  status: number;
 }
