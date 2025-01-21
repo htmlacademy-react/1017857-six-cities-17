@@ -9,12 +9,13 @@ import OfferCard from '../../components/offer-card/offer-card.tsx';
 import Neighbourhood from '../../components/neighbourhood/neighbourhood.tsx';
 import { Review } from '../../types/review.ts';
 import NotFoundPage from '../not-found-page/not-found-page.tsx';
-
+import { Setting } from '../../const.ts';
 
 function OfferPage(): JSX.Element {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const isErrorOffer = useAppSelector((state) => state.isErrorOffer);
+  const neighbourhoodCount = Setting.NeighbourhoodCount;
   useEffect(() => {
     if (id) {
       dispatch(fetchOfferByIdAction(id));
@@ -26,6 +27,7 @@ function OfferPage(): JSX.Element {
   const offerData: OfferExtended | null = useAppSelector((state) => state.offerData);
   const nearbyData: Offer[] | null = useAppSelector((state) => state.nearbyData);
   const reviewData: Review[] | null = useAppSelector((state) => state.reviewData);
+  const nearbyList = nearbyData?.slice(0, neighbourhoodCount);
 
   if (isErrorOffer) {
     return <NotFoundPage />;
@@ -38,10 +40,8 @@ function OfferPage(): JSX.Element {
       </Helmet>
       <Header/>
       <main className="page__main page__main--offer">
-        {(offerData && true) &&
-          <OfferCard currentOffer={offerData} reviewsData={reviewData} neighbourhoods={nearbyData}/>}
-        {(offerData && true) &&
-          <Neighbourhood places={nearbyData}/>}
+        {(offerData && true) && <OfferCard currentOffer={offerData} reviewsData={reviewData} neighbourhoods={nearbyList}/>}
+        {(offerData && true) && <Neighbourhood places={nearbyList}/>}
       </main>
     </div>
   );

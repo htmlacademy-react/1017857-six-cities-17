@@ -1,7 +1,9 @@
 import { City } from './types/offer.ts';
 
 export const Setting = {
-  PlaceCardCount: 6
+  PlaceCardCount: 5,
+  NeighbourhoodCount: 3,
+  MaxReviews: 10
 };
 
 export enum AppRoute {
@@ -109,4 +111,16 @@ export enum APIRoute {
   Favorites = '/favorite'
 }
 
-export const MAX_REVIEWS = 10;
+export enum NameSpaces {
+  Offer = 'OFFER',
+  Place = 'PLACE',
+  User = 'USER',
+  Favorite = 'FAVORITE'
+}
+
+export enum Status {
+  isSuccess = 'SUCCESS',
+  isError = 'ERROR',
+  isPending = 'PENDING',
+  idle = 'IDLE'
+}

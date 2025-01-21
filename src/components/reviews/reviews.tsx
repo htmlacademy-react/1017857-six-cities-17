@@ -2,7 +2,7 @@ import ReviewForm from '../review-form/review-form.tsx';
 import { JSX } from 'react';
 import ReviewItem from '../review-item/review-item.tsx';
 import { Review } from '../../types/review.ts';
-import { AuthorizationStatus, MAX_REVIEWS } from '../../const.ts';
+import { AuthorizationStatus, Setting } from '../../const.ts';
 import { useAppSelector } from '../../hooks';
 
 type ReviewsProps = {
@@ -11,7 +11,7 @@ type ReviewsProps = {
 }
 
 function Reviews({ reviewsData, authorizationStatus }: ReviewsProps): JSX.Element {
-  const displayedReviews = reviewsData ? reviewsData.slice(-MAX_REVIEWS).reverse() : [];
+  const displayedReviews = reviewsData ? reviewsData.slice(-Setting.MaxReviews).reverse() : [];
   const offerData = useAppSelector((state) => state.offerData);
   const offerId = offerData ? offerData.id : null;
   return (

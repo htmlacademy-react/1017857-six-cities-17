@@ -1,7 +1,8 @@
 import { City } from '../../types/offer.ts';
 import Location from '../loction/location.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { selectLocation } from '../../store/action.ts';
+import { getCityName } from '../../store/places-process/selectors.ts';
+import { selectLocation } from '../../store/places-process/places-process.ts';
 
 type LocationsProps = {
   locations: City[];
@@ -9,7 +10,7 @@ type LocationsProps = {
 
 function Locations({ locations }: LocationsProps) {
   const dispatch = useAppDispatch();
-  const active = useAppSelector((state) => state.city.name);
+  const active = useAppSelector(getCityName);
   const handleClick = (locationName: string) => {
     dispatch(selectLocation({ locationName }));
   };

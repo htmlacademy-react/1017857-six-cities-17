@@ -7,6 +7,7 @@ type NeighbourhoodProps = {
 }
 
 function Neighbourhood({ places }: NeighbourhoodProps): JSX.Element {
+
   return (
     <div className="container">
       <section className="near-places places">
