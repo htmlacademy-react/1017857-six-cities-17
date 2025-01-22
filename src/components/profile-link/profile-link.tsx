@@ -8,7 +8,7 @@ type ProfileLinkProps = {
 
 function ProfileLink({ authorizationStatus, email }: ProfileLinkProps) {
   return (
-    <Link className="header__nav-link header__nav-link--profile" to={authorizationStatus === AuthorizationStatus.Auth ? '#' : AppRoute.Login}>
+    <Link className="header__nav-link header__nav-link--profile" to={authorizationStatus === AuthorizationStatus.Auth ? AppRoute.Favorites : AppRoute.Login}>
       <div className="header__avatar-wrapper user__avatar-wrapper">
       </div>
       {authorizationStatus === AuthorizationStatus.Auth ?

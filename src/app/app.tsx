@@ -8,7 +8,7 @@ import OfferPage from '../pages/offer-page/offer-page.tsx';
 import NotFoundPage from '../pages/not-found-page/not-found-page.tsx';
 import PrivateRoute from '../components/private-route/private-route.tsx';
 import FavoritesPage from '../pages/favorites-page/favorites-page.tsx';
-import { Offer, OfferExtended } from '../types/offer.ts';
+import { Offer } from '../types/offer.ts';
 import LoadingScreen from '../components/loading-screen/loading-screen.tsx';
 import { useAppSelector } from '../hooks';
 import HistoryRouter from '../components/history-route/history-route.tsx';
@@ -16,10 +16,9 @@ import browserHistory from '../browser-history.ts';
 
 type AppProps = {
   placeCardCount: number;
-  offersExtended: OfferExtended[];
 }
 
-function App({ placeCardCount, offersExtended }: AppProps): JSX.Element {
+function App({ placeCardCount }: AppProps): JSX.Element {
   const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
   const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
   const offers: Offer[] = useAppSelector((state) => state.offers);
@@ -47,7 +46,7 @@ function App({ placeCardCount, offersExtended }: AppProps): JSX.Element {
           />
           <Route
             path={ AppRoute.Offer }
-            element={ <OfferPage offersExtended={offersExtended} offers={offers} /> }
+            element={ <OfferPage /> }
           />
           <Route
             path={ AppRoute.Favorites }

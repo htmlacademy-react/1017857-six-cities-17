@@ -2,7 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './app/app';
 import { Setting } from './const';
-import { offersExt } from './mocks/offers-ext.ts';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import { checkAuthAction, fetchOfferAction } from './store/api-actions.ts';
@@ -22,7 +21,6 @@ root.render(
       <ToastContainer />
       <App
         placeCardCount={ Setting.PlaceCardCount }
-        offersExtended={ offersExt }
       />
     </Provider>
   </React.StrictMode>
