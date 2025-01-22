@@ -3,9 +3,10 @@ import { Helmet } from 'react-helmet-async';
 import Header from '../../components/header/header.tsx';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../store/api-actions.ts';
+import { getCityName } from '../../store/places-process/selectors.ts';
 
 function LoginPage(): JSX.Element {
-  const currentCity = useAppSelector((state) => state.city.name);
+  const currentCity = useAppSelector(getCityName);
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();

@@ -2,10 +2,11 @@ import ProfileLink from '../profile-link/profile-link.tsx';
 import LogoutLink from '../logout-link.tsx';
 import { useAppSelector } from '../../hooks';
 import { AuthorizationStatus } from '../../const.ts';
+import { getAuthorizationStatus, getEmail } from '../../store/user-process/selectors.ts';
 
 function HeaderNav() {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const email = useAppSelector((state) => state.userData?.email);
+  const authorizationStatus = useAppSelector((getAuthorizationStatus));
+  const email = useAppSelector(getEmail);
   return (
     <nav className="header__nav">
       <ul className="header__nav-list">

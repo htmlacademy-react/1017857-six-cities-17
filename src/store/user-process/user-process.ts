@@ -1,10 +1,8 @@
-import {AppRoute, AuthorizationStatus, NameSpaces} from '../../const.ts';
-import {UserProcess} from '../../types/state.ts';
-import {createSlice} from '@reduxjs/toolkit';
-import {checkAuthAction, loginAction, logoutAction} from '../api-actions.ts';
-import {clearToken, setToken} from '../../services/token.ts';
-import {redirectToRoute} from '../action.ts';
-
+import { AuthorizationStatus, NameSpaces } from '../../const.ts';
+import { UserProcess } from '../../types/state.ts';
+import { createSlice } from '@reduxjs/toolkit';
+import { checkAuthAction, loginAction, logoutAction } from '../api-actions.ts';
+import { clearToken, setToken } from '../../services/token.ts';
 
 const initialState: UserProcess = {
   authorizationStatus: AuthorizationStatus.Unknown,
@@ -33,13 +31,12 @@ export const userProcess = createSlice({
         const { token, ...userData } = action.payload;
         setToken(token);
         state.userData = userData;
-        redirectToRoute(AppRoute.Main); // Проверить работу. Есть в Middleware и action
       })
       .addCase(loginAction.rejected, (state) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
       })
       .addCase(logoutAction.fulfilled, (state) => {
-        state.authorizationStatus = AuthorizationStatus.NoAuth
+        state.authorizationStatus = AuthorizationStatus.NoAuth;
         clearToken();
       });
   }

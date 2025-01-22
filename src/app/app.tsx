@@ -21,11 +21,11 @@ function App(): JSX.Element {
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const isPlacesPending = useAppSelector(isPlacesDataPending);
   const offers: Offer[] = useAppSelector(getPlaces);
-  // if (isPlacesPending) {
-  //   return (
-  //     <LoadingScreen />
-  //   );
-  // }
+  if (!isAuthChecked || isPlacesPending) {
+    return (
+      <LoadingScreen />
+    );
+  }
   return (
     <HelmetProvider>
       <HistoryRouter history={browserHistory}>

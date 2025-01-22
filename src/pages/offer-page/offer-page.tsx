@@ -10,11 +10,12 @@ import Neighbourhood from '../../components/neighbourhood/neighbourhood.tsx';
 import { Review } from '../../types/review.ts';
 import NotFoundPage from '../not-found-page/not-found-page.tsx';
 import { Setting } from '../../const.ts';
+import { checkErrorStatus, getNearbyData, getOfferData, getReviewData } from '../../store/offer-process/selectors.ts';
 
 function OfferPage(): JSX.Element {
   const { id } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
-  const isErrorOffer = useAppSelector((state) => state.isErrorOffer);
+  const isErrorOffer = useAppSelector(checkErrorStatus);
   const neighbourhoodCount = Setting.NeighbourhoodCount;
   useEffect(() => {
     if (id) {
@@ -24,9 +25,9 @@ function OfferPage(): JSX.Element {
     }
   }, [id, dispatch]);
 
-  const offerData: OfferExtended | null = useAppSelector((state) => state.offerData);
-  const nearbyData: Offer[] | null = useAppSelector((state) => state.nearbyData);
-  const reviewData: Review[] | null = useAppSelector((state) => state.reviewData);
+  const offerData: OfferExtended | null = useAppSelector(getOfferData);
+  const nearbyData: Offer[] | null = useAppSelector(getNearbyData);
+  const reviewData: Review[] | null = useAppSelector(getReviewData);
   const nearbyList = nearbyData?.slice(0, neighbourhoodCount);
 
   if (isErrorOffer) {

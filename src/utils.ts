@@ -1,9 +1,6 @@
-import uniqid from 'uniqid';
-import {City, Offer} from './types/offer.ts';
+import { City, Offer } from './types/offer.ts';
 
 const convertRating = (rating: number) => rating * 100 / 5;
-
-const getUniqId = () => uniqid('prefix-', '-suffix');
 
 const sortOffersByPriceAscending = (offers: Offer[]): Offer[] => offers.sort((a, b) => a.price - b.price);
 const sortOffersByPriceDescending = (offers: Offer[]): Offer[] => offers.sort((a, b) => b.price - a.price);
@@ -18,4 +15,4 @@ const getDefaultCity = (cityName: string, places: City[]): City => {
 };
 
 
-export { convertRating, getUniqId, sortOffersByPriceAscending, sortOffersByPriceDescending, sortOffersByRating, getDefaultCity };
+export { convertRating, sortOffersByPriceAscending, sortOffersByPriceDescending, sortOffersByRating, getDefaultCity };

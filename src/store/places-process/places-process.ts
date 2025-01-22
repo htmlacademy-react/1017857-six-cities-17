@@ -31,8 +31,7 @@ export const placesProcess = createSlice({
         state.places = action.payload;
         state.status = Status.isSuccess;
       })
-      .addCase(fetchOfferAction.rejected, (state, action) => {
-        console.log(action.error);
+      .addCase(fetchOfferAction.rejected, (state) => {
         state.places = [];
         state.status = Status.isError;
       });

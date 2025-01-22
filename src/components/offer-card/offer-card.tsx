@@ -8,6 +8,8 @@ import { Review } from '../../types/review.ts';
 import Map from '../map/map.tsx';
 import cn from 'classnames';
 import { useAppSelector } from '../../hooks';
+import { getCity, getPlaces } from '../../store/places-process/selectors.ts';
+import { getAuthorizationStatus } from '../../store/user-process/selectors.ts';
 
 type OfferCardProps = {
   currentOffer: OfferExtended;
@@ -16,9 +18,9 @@ type OfferCardProps = {
 }
 
 function OfferCard({ currentOffer, reviewsData, neighbourhoods }: OfferCardProps) {
-  const city: City = useAppSelector((state) => state.city);
-  const offers: Offer[] = useAppSelector((state) => state.offers);
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const city: City = useAppSelector(getCity);
+  const offers: Offer[] = useAppSelector(getPlaces);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const current: Offer | undefined = offers.find((offer) => offer.id === currentOffer.id);
   let places: Offer[] | null = [];
   if (current) {
