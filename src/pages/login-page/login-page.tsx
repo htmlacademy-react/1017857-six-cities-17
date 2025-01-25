@@ -1,22 +1,49 @@
-import { FormEvent, JSX, useRef } from 'react';
-import { Helmet } from 'react-helmet-async';
+import { FormEvent, JSX, useEffect, useRef } from 'react';
+import { Helmet} from 'react-helmet-async';
 import Header from '../../components/header/header.tsx';
-import { useAppDispatch, useAppSelector } from '../../hooks';
+import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-actions.ts';
-import { getCityName } from '../../store/places-process/selectors.ts';
+import { AppRoute, AuthorizationStatus } from '../../const.ts';
+import { redirectToRoute } from "../../store/action.ts";
+import { cities } from "../../const.ts";
+import {toast} from "react-toastify";
 
-function LoginPage(): JSX.Element {
-  const currentCity = useAppSelector(getCityName);
+type LoginPageProps = {
+  authorizationStatus: AuthorizationStatus;
+}
+
+function LoginPage({ authorizationStatus }: LoginPageProps): JSX.Element {
   const loginRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
   const dispatch = useAppDispatch();
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+
+  const getRandomCity = () => {
+    const randomCity = cities[Math.floor(Math.random() * cities.length)];
+    return randomCity.name;
+  }
+
+  useEffect(() => {
+    if (authorizationStatus === AuthorizationStatus.Auth) {
+      dispatch(redirectToRoute(AppRoute.Main));
+    }
+  }, []);
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (loginRef.current !== null && passwordRef.current !== null) {
-      dispatch(loginAction({
-        email: loginRef.current.value,
-        password: passwordRef.current.value
-      }));
+    try {
+      if (loginRef.current !== null && passwordRef.current !== null) {
+        await dispatch(loginAction({
+          email: loginRef.current.value,
+          password: passwordRef.current.value
+        })).unwrap();
+      }
+      dispatch((redirectToRoute(AppRoute.Main)));
+    } catch (error) {
+      if (error instanceof Error) {
+        toast.error(`'Login failed: ${error.message}`);
+      } else {
+        toast.error('Login failed: An unknown error occurred');
+      }
     }
   };
 
@@ -69,7 +96,7 @@ function LoginPage(): JSX.Element {
           <section className="locations locations--login locations--current">
             <div className="locations__item">
               <a className="locations__item-link" href="#">
-                <span>{currentCity}</span>
+                <span>{getRandomCity()}</span>
               </a>
             </div>
           </section>

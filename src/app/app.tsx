@@ -15,12 +15,14 @@ import HistoryRouter from '../components/history-route/history-route.tsx';
 import browserHistory from '../browser-history.ts';
 import { getAuthCheckedStatus, getAuthorizationStatus } from '../store/user-process/selectors.ts';
 import { getPlaces, isPlacesDataPending } from '../store/places-process/selectors.ts';
+import { selectFavoriteOffers } from '../store/favorite-process/selectors.ts';
 
 function App(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isAuthChecked = useAppSelector(getAuthCheckedStatus);
   const isPlacesPending = useAppSelector(isPlacesDataPending);
   const offers: Offer[] = useAppSelector(getPlaces);
+  const favoriteOffers: Offer[] = useAppSelector((selectFavoriteOffers));
   if (!isAuthChecked || isPlacesPending) {
     return (
       <LoadingScreen />
@@ -40,7 +42,7 @@ function App(): JSX.Element {
           />
           <Route
             path={ AppRoute.Login }
-            element={ <LoginPage /> }
+            element={ <LoginPage authorizationStatus={ authorizationStatus } /> }
           />
           <Route
             path={ AppRoute.Offer }
@@ -50,7 +52,7 @@ function App(): JSX.Element {
             path={ AppRoute.Favorites }
             element={
               <PrivateRoute authorizationStatus={ authorizationStatus }>
-                <FavoritesPage offers={offers} />
+                <FavoritesPage offers={favoriteOffers} />
               </PrivateRoute>
             }
           />

@@ -22,5 +22,12 @@ export type OfferProcess = {
   status: Status;
 }
 
+export type FavoriteProcess = {
+  favoriteOffers: Offer[];
+
+  isFavoriteOffersLoading: boolean;
+  uploadingFavoriteStatus: Status;
+}
+
 export type State = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
