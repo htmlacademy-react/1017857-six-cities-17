@@ -20,7 +20,7 @@ function ReviewItem(props: ReviewItemProps) {
     rating,
     user,
   } = props;
-  const formatedDate = dayjs(date).format('YYYY-MM-DD');
+  const formatedDate = dayjs(date).format('MMMM YYYY');
   return (
     <li className="reviews__item">
       <div className="reviews__user user">

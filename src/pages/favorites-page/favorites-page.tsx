@@ -1,8 +1,13 @@
 import { JSX } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { Offer } from '../../types/offer.ts';
-import FavoriteLocation from '../../components/favorite-location/favorite-location.tsx';
 import Header from '../../components/header/header.tsx';
+import FavoritesList from '../../components/favorites-list/favorites-list.tsx';
+import FavoritesEmpty from '../../components/favorites-empty/favorites-empty.tsx';
+import cn from 'classnames';
+import { useAppSelector } from '../../hooks';
+import { isFavoritePending } from '../../store/favorite-process/selectors.ts';
+import LoadingScreen from '../../components/loading-screen/loading-screen.tsx';
 
 type FavoritesPageProps = {
   offers: Offer[];
@@ -10,18 +15,10 @@ type FavoritesPageProps = {
 
 function FavoritesPage({ offers }: FavoritesPageProps): JSX.Element {
   const favoriteOffers: Offer[] = offers.filter((offer) => offer.isFavorite);
-  const groupedByCity: Map<string, Offer[]> = favoriteOffers.reduce(
-    (acc:Map<string, Offer[]>, offer: Offer) => {
-      if (!acc.has(offer.city.name)) {
-        acc.set(offer.city.name, []);
-      }
-      const cityOffers: Offer[] | undefined = acc.get(offer.city.name);
-      if (cityOffers) {
-        cityOffers.push(offer);
-      }
-      return acc;
-    }, new Map<string, Offer[]>()
-  );
+  const isLoading = useAppSelector(isFavoritePending);
+  if (isLoading) {
+    return <LoadingScreen />;
+  }
 
   return (
     <div className="page">
@@ -29,16 +26,16 @@ function FavoritesPage({ offers }: FavoritesPageProps): JSX.Element {
         <title>6 cities: favorites</title>
       </Helmet>
       <Header />
-      <main className="page__main page__main--favorites">
+      <main className={cn(
+        'page__main',
+        'page__main--favorites',
+        { 'page__main--favorites-empty': favoriteOffers.length === 0 }
+      )}
+      >
         <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              {Array.from(groupedByCity, ([city, location]: [string, Offer[]]) => (
-                <FavoriteLocation key={city} city={city} offers={location}/>
-              ))}
-            </ul>
-          </section>
+          { favoriteOffers.length > 0 ?
+            <FavoritesList favoriteOffers={favoriteOffers}/> :
+            <FavoritesEmpty /> }
         </div>
       </main>
       <footer className="footer container">

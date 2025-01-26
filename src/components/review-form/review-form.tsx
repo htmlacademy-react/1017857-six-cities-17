@@ -1,6 +1,8 @@
 import { ChangeEvent, FormEvent, useRef, useState } from 'react';
-import { useAppDispatch } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions.ts';
+import { isReviewPending } from '../../store/review-process/selectors.ts';
+import { setReviewIdleStatus } from '../../store/review-process/review-process.tsx';
 
 type ReviewFormProps = {
   offerId: string;
@@ -12,7 +14,7 @@ function ReviewForm({ offerId }: ReviewFormProps) {
 
   const [rating, setRating] = useState<number | null>(null);
   const [comment, setComment] = useState<string>('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isLoading = useAppSelector(isReviewPending);
 
   const isFormValid = rating !== null && comment.length >= 50 && comment.length <= 300;
 
@@ -26,19 +28,21 @@ function ReviewForm({ offerId }: ReviewFormProps) {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (!isFormValid) {
-      return;
+    if (isFormValid) {
+      dispatch(postReviewAction({
+        offerId,
+        comment,
+        rating,
+      }))
+        .unwrap()
+        .then(() => {
+          setRating(null);
+          setComment('');
+        })
+        .finally(() => {
+          dispatch(setReviewIdleStatus());
+        });
     }
-    setIsSubmitting(true);
-    dispatch(postReviewAction({
-      offerId,
-      comment,
-      rating,
-    }));
-    setRating(null);
-    setComment('');
-    setIsSubmitting(false);
-
   };
 
   return (
@@ -60,7 +64,7 @@ function ReviewForm({ offerId }: ReviewFormProps) {
           id="5-stars"
           type="radio"
           onChange={() => handleRatingChange(5)}
-          disabled={isSubmitting}
+          disabled={isLoading}
         />
         <label htmlFor="5-stars" className="reviews__rating-label form__rating-label" title="perfect">
           <svg className="form__star-image" width="37" height="33">
@@ -75,7 +79,7 @@ function ReviewForm({ offerId }: ReviewFormProps) {
           id="4-stars"
           type="radio"
           onChange={() => handleRatingChange(4)}
-          disabled={isSubmitting}
+          disabled={isLoading}
         />
         <label htmlFor="4-stars" className="reviews__rating-label form__rating-label" title="good">
           <svg className="form__star-image" width="37" height="33">
@@ -90,7 +94,7 @@ function ReviewForm({ offerId }: ReviewFormProps) {
           id="3-stars"
           type="radio"
           onChange={() => handleRatingChange(3)}
-          disabled={isSubmitting}
+          disabled={isLoading}
         />
         <label htmlFor="3-stars" className="reviews__rating-label form__rating-label" title="not bad">
           <svg className="form__star-image" width="37" height="33">
@@ -105,7 +109,7 @@ function ReviewForm({ offerId }: ReviewFormProps) {
           id="2-stars"
           type="radio"
           onChange={() => handleRatingChange(2)}
-          disabled={isSubmitting}
+          disabled={isLoading}
         />
         <label htmlFor="2-stars" className="reviews__rating-label form__rating-label" title="badly">
           <svg className="form__star-image" width="37" height="33">
@@ -120,7 +124,7 @@ function ReviewForm({ offerId }: ReviewFormProps) {
           id="1-star"
           type="radio"
           onChange={() => handleRatingChange(1)}
-          disabled={isSubmitting}
+          disabled={isLoading}
         />
         <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
           <svg className="form__star-image" width="37" height="33">
@@ -135,7 +139,7 @@ function ReviewForm({ offerId }: ReviewFormProps) {
         placeholder="Tell how was your stay, what you like and what can be improved"
         value={comment}
         onChange={handleCommentChange}
-        disabled={isSubmitting}
+        disabled={isLoading}
       />
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
@@ -145,7 +149,7 @@ function ReviewForm({ offerId }: ReviewFormProps) {
         <button
           className="reviews__submit form__submit button"
           type="submit"
-          disabled={!isFormValid || isSubmitting}
+          disabled={!isFormValid || isLoading}
         >
           Submit
         </button>

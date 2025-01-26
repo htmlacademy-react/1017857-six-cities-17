@@ -2,7 +2,7 @@ import { JSX } from 'react';
 import MainPage from '../pages/main-page/main-page.tsx';
 import { Route, Routes } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
-import { AppRoute, AuthorizationStatus } from '../const.ts';
+import { AppRoute } from '../const.ts';
 import LoginPage from '../pages/login-page/login-page.tsx';
 import OfferPage from '../pages/offer-page/offer-page.tsx';
 import NotFoundPage from '../pages/not-found-page/not-found-page.tsx';
@@ -13,16 +13,17 @@ import LoadingScreen from '../components/loading-screen/loading-screen.tsx';
 import { useAppSelector } from '../hooks';
 import HistoryRouter from '../components/history-route/history-route.tsx';
 import browserHistory from '../browser-history.ts';
+import { getAuthCheckedStatus, getAuthorizationStatus } from '../store/user-process/selectors.ts';
+import { getPlaces, isPlacesDataPending } from '../store/places-process/selectors.ts';
+import { selectFavoriteOffers } from '../store/favorite-process/selectors.ts';
 
-type AppProps = {
-  placeCardCount: number;
-}
-
-function App({ placeCardCount }: AppProps): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isOffersDataLoading = useAppSelector((state) => state.isOffersDataLoading);
-  const offers: Offer[] = useAppSelector((state) => state.offers);
-  if (authorizationStatus === AuthorizationStatus.Unknown || isOffersDataLoading) {
+function App(): JSX.Element {
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isAuthChecked = useAppSelector(getAuthCheckedStatus);
+  const isPlacesPending = useAppSelector(isPlacesDataPending);
+  const offers: Offer[] = useAppSelector(getPlaces);
+  const favoriteOffers: Offer[] = useAppSelector((selectFavoriteOffers));
+  if (!isAuthChecked || isPlacesPending) {
     return (
       <LoadingScreen />
     );
@@ -35,14 +36,13 @@ function App({ placeCardCount }: AppProps): JSX.Element {
             path={ AppRoute.Main }
             element={
               <MainPage
-                placeCardCount={ placeCardCount }
                 offers={offers}
               />
             }
           />
           <Route
             path={ AppRoute.Login }
-            element={ <LoginPage /> }
+            element={ <LoginPage authorizationStatus={ authorizationStatus } /> }
           />
           <Route
             path={ AppRoute.Offer }
@@ -52,7 +52,7 @@ function App({ placeCardCount }: AppProps): JSX.Element {
             path={ AppRoute.Favorites }
             element={
               <PrivateRoute authorizationStatus={ authorizationStatus }>
-                <FavoritesPage offers={offers} />
+                <FavoritesPage offers={favoriteOffers} />
               </PrivateRoute>
             }
           />

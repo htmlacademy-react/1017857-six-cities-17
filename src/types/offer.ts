@@ -40,5 +40,9 @@ export type Host = {
 
 export type Favorite = {
   offerId: string;
-  status: number;
+  isFavorite: boolean;
+}
+
+export type ProportionsType = {
+  [key: string]: {width: number; height: number};
 }

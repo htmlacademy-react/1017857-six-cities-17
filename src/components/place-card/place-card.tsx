@@ -3,6 +3,7 @@ import { Offer } from '../../types/offer.ts';
 import { Link } from 'react-router-dom';
 import { convertRating } from '../../utils.ts';
 import cn from 'classnames';
+import BookmarkButton from '../bookmark-button/bookmark-button.tsx';
 
 type PlaceCardProps = {
   place: Offer;
@@ -57,19 +58,7 @@ function PlaceCard({ place, activeId, onHover, variant }: PlaceCardProps): JSX.E
             <b className="place-card__price-value">&euro;{place.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button
-            className={cn(
-              'place-card__bookmark-button',
-              { 'place-card__bookmark-button--active': place.isFavorite },
-              'button'
-            )}
-            type="button"
-          >
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">To bookmarks</span>
-          </button>
+          <BookmarkButton bookmarkClass={'place-card'} offerId={place.id} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
