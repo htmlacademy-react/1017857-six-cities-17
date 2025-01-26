@@ -7,7 +7,7 @@ import { fetchFavoriteOffersAction, uploadFavoriteStatusAction } from '../api-ac
 const initialState: FavoriteProcess = {
   favoriteOffers: [],
   isFavoriteOffersLoading: false,
-  uploadingFavoriteStatus: Status.idle
+  status: Status.Idle
 };
 
 export const favoriteProcess = createSlice({
@@ -28,21 +28,21 @@ export const favoriteProcess = createSlice({
       })
 
       .addCase(uploadFavoriteStatusAction.pending, (state) => {
-        state.uploadingFavoriteStatus = Status.isPending;
+        state.status = Status.Pending;
       })
       .addCase(uploadFavoriteStatusAction.fulfilled, (state, action) => {
-        state.uploadingFavoriteStatus = Status.isSuccess;
+        state.status = Status.Success;
         if (action.payload.isFavorite) {
           state.favoriteOffers.push(action.payload);
         } else {
           const favoriteIndex = state.favoriteOffers.findIndex((offer) => offer.id === action.payload.id);
           state.favoriteOffers.splice(favoriteIndex, 1);
         }
-        state.uploadingFavoriteStatus = Status.idle;
+        state.status = Status.Idle;
       })
       .addCase(uploadFavoriteStatusAction.rejected, (state) => {
-        state.uploadingFavoriteStatus = Status.isError;
-        state.uploadingFavoriteStatus = Status.idle;
+        state.status = Status.Error;
+        state.status = Status.Idle;
       });
   },
 });

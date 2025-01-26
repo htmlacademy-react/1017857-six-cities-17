@@ -9,7 +9,7 @@ import Map from '../map/map.tsx';
 import { useAppSelector } from '../../hooks';
 import { getCity, getPlaces } from '../../store/places-process/selectors.ts';
 import { getAuthorizationStatus } from '../../store/user-process/selectors.ts';
-import BookmarkButton from "../bookmark-button/bookmark-button.tsx";
+import BookmarkButton from '../bookmark-button/bookmark-button.tsx';
 
 type OfferCardProps = {
   currentOffer: OfferExtended;
@@ -56,7 +56,7 @@ function OfferCard({ currentOffer, reviewsData, neighbourhoods }: OfferCardProps
               </div>
               <div className="offer__rating rating">
                 <div className="offer__stars rating__stars">
-                  <span style={{width: `${convertRating(currentOffer.rating)}%`}}></span>
+                  <span style={{ width: `${convertRating(currentOffer.rating)}%` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
                 <span className="offer__rating-value rating__value">{currentOffer.rating}</span>
@@ -66,10 +66,10 @@ function OfferCard({ currentOffer, reviewsData, neighbourhoods }: OfferCardProps
                   {currentOffer.type}
                 </li>
                 <li className="offer__feature offer__feature--bedrooms">
-                  {currentOffer.bedrooms} Bedrooms
+                  {currentOffer.bedrooms > 1 ? `${currentOffer.bedrooms} Bedrooms` : `${currentOffer.bedrooms} Bedroom` }
                 </li>
                 <li className="offer__feature offer__feature--adults">
-                  Max {currentOffer.maxAdults} adults
+                  Max {currentOffer.maxAdults > 1 ? `${currentOffer.maxAdults} Adults` : `${currentOffer.maxAdults} Adult`}
                 </li>
               </ul>
               <div className="offer__price">

@@ -1,8 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AppDispatch, State } from '../types/state.ts';
 import { AxiosInstance } from 'axios';
-import {Favorite, Offer, OfferExtended} from '../types/offer.ts';
-import {APIRoute, NameSpaces} from '../const.ts';
+import { Favorite, Offer, OfferExtended } from '../types/offer.ts';
+import { APIRoute, NameSpaces } from '../const.ts';
 import { UserData } from '../types/user-data.ts';
 import { AuthData } from '../types/auth-data.ts';
 import { Review, ReviewData } from '../types/review.ts';
@@ -67,18 +67,6 @@ export const postReviewAction = createAsyncThunk<Review, ReviewData, {
   }
 );
 
-export const checkAuthAction = createAsyncThunk<UserData, undefined, {
-  dispatch: AppDispatch;
-  stata: State;
-  extra: AxiosInstance;
-}>(
-  `${NameSpaces.User}/checkAuth`,
-  async (_arg, { extra: api }) => {
-    const { data } = await api.get<UserData>(APIRoute.Login);
-    return data;
-  }
-);
-
 export const fetchFavoriteOffersAction = createAsyncThunk<Offer[], undefined, {
   dispatch: AppDispatch;
   stata: State;
@@ -91,13 +79,26 @@ export const fetchFavoriteOffersAction = createAsyncThunk<Offer[], undefined, {
   }
 );
 
+export const checkAuthAction = createAsyncThunk<UserData, undefined, {
+  dispatch: AppDispatch;
+  stata: State;
+  extra: AxiosInstance;
+}>(
+  `${NameSpaces.User}/checkAuth`,
+  async (_arg, { dispatch, extra: api }) => {
+    const { data } = await api.get<UserData>(APIRoute.Login);
+    dispatch(fetchFavoriteOffersAction());
+    return data;
+  }
+);
+
 export const loginAction = createAsyncThunk<UserData, AuthData, {
   dispatch: AppDispatch;
   stata: State;
   extra: AxiosInstance;
 }>(
   `${NameSpaces.User}/login`,
-  async ({ email: email, password: password }, {dispatch, extra: api }) => {
+  async ({ email: email, password: password }, { dispatch, extra: api }) => {
     const { data } = await api.post<UserData>(APIRoute.Login, { email, password });
     dispatch(fetchFavoriteOffersAction());
     return data;
@@ -127,7 +128,6 @@ export const uploadFavoriteStatusAction = createAsyncThunk<Offer, Favorite, {
     const state = getState() as State;
     const { places } = state[NameSpaces.Place];
     const currentPlace: Offer | undefined = places.find((place: Offer) => place.id === data.id);
-    console.log('currentPlace', currentPlace);
     if (!currentPlace) {
       throw new Error(`Offer not found: ${data.id}`);
     }

@@ -1,7 +1,7 @@
 import { City } from './types/offer.ts';
 
 export const Setting = {
-  PlaceCardCount: 5,
+  PlaceCardCount: 20,
   NeighbourhoodCount: 3,
   MaxReviews: 10
 };
@@ -115,12 +115,13 @@ export enum NameSpaces {
   Offer = 'OFFER',
   Place = 'PLACE',
   User = 'USER',
-  Favorite = 'FAVORITE'
+  Favorite = 'FAVORITE',
+  Review = 'REVIEW'
 }
 
 export enum Status {
-  isSuccess = 'SUCCESS',
-  isError = 'ERROR',
-  isPending = 'PENDING',
-  idle = 'IDLE'
+  Success = 'SUCCESS',
+  Error = 'ERROR',
+  Pending = 'PENDING',
+  Idle = 'IDLE'
 }

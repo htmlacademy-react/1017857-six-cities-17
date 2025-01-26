@@ -1,13 +1,12 @@
 import { OfferProcess } from '../../types/state.ts';
 import { NameSpaces, Status } from '../../const.ts';
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchNearbyAction, fetchOfferByIdAction, fetchReviewAction, postReviewAction } from '../api-actions.ts';
+import { fetchNearbyAction, fetchOfferByIdAction } from '../api-actions.ts';
 
 const initialState: OfferProcess = {
   offerData: null,
   nearbyData: [],
-  reviewData: [],
-  status: Status.idle
+  status: Status.Idle
 };
 
 export const offerProcess = createSlice({
@@ -17,38 +16,24 @@ export const offerProcess = createSlice({
   extraReducers(builder) {
     builder
       .addCase(fetchOfferByIdAction.pending, (state) => {
-        state.status = Status.isPending;
+        state.status = Status.Pending;
       })
       .addCase(fetchOfferByIdAction.fulfilled, (state, action) => {
         state.offerData = action.payload;
-        state.status = Status.isSuccess;
+        state.status = Status.Success;
       })
       .addCase(fetchOfferByIdAction.rejected, (state) => {
-        state.status = Status.isError;
+        state.status = Status.Error;
       })
       .addCase(fetchNearbyAction.pending, (state) => {
-        state.status = Status.isPending;
+        state.status = Status.Pending;
       })
       .addCase(fetchNearbyAction.fulfilled, (state, action) => {
         state.nearbyData = action.payload;
-        state.status = Status.isSuccess;
+        state.status = Status.Success;
       })
       .addCase(fetchNearbyAction.rejected, (state) => {
-        state.status = Status.isError;
-      })
-      .addCase(fetchReviewAction.pending, (state) => {
-        state.status = Status.isPending;
-      })
-      .addCase(fetchReviewAction.fulfilled, (state, action) => {
-        state.reviewData = action.payload;
-        state.status = Status.isSuccess;
-      })
-      .addCase(fetchReviewAction.rejected, (state) => {
-        state.status = Status.isError;
-      })
-      .addCase(postReviewAction.fulfilled, (state, action) => {
-        state.reviewData = [...state.reviewData, action.payload];
-        state.status = Status.isSuccess;
+        state.status = Status.Error;
       });
   }
 });

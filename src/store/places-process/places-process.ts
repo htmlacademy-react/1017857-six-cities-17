@@ -3,11 +3,12 @@ import { PlaceProcess } from '../../types/state.ts';
 import { getDefaultCity } from '../../utils.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchOfferAction } from '../api-actions.ts';
+import { toast } from 'react-toastify';
 
 const initialState: PlaceProcess = {
   city: getDefaultCity(DEFAULT_CITY, cities),
   places: [],
-  status: Status.idle,
+  status: Status.Idle,
 };
 
 export const placesProcess = createSlice({
@@ -20,22 +21,26 @@ export const placesProcess = createSlice({
       if (foundCity) {
         state.city = { ...foundCity };
       }
+    },
+    setPlacesIdleStatus: (state) => {
+      state.status = Status.Idle;
     }
   },
   extraReducers(builder) {
     builder
       .addCase(fetchOfferAction.pending, (state) => {
-        state.status = Status.isPending;
+        state.status = Status.Pending;
       })
       .addCase(fetchOfferAction.fulfilled, (state, action) => {
         state.places = action.payload;
-        state.status = Status.isSuccess;
+        state.status = Status.Success;
       })
-      .addCase(fetchOfferAction.rejected, (state) => {
+      .addCase(fetchOfferAction.rejected, (state, action) => {
         state.places = [];
-        state.status = Status.isError;
+        state.status = Status.Error;
+        toast.error(action.error.message);
       });
   }
 });
 
-export const { selectLocation } = placesProcess.actions;
+export const { selectLocation, setPlacesIdleStatus } = placesProcess.actions;

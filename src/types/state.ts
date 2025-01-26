@@ -18,15 +18,18 @@ export type PlaceProcess = {
 export type OfferProcess = {
   offerData: OfferExtended | null;
   nearbyData: Offer[];
-  reviewData: Review[];
   status: Status;
 }
 
 export type FavoriteProcess = {
   favoriteOffers: Offer[];
-
   isFavoriteOffersLoading: boolean;
-  uploadingFavoriteStatus: Status;
+  status: Status;
+}
+
+export type ReviewProcess = {
+  reviewData: Review[];
+  status: Status;
 }
 
 export type State = ReturnType<typeof store.getState>;

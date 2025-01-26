@@ -3,7 +3,7 @@ import { Offer } from '../../types/offer.ts';
 import { Link } from 'react-router-dom';
 import { convertRating } from '../../utils.ts';
 import cn from 'classnames';
-import BookmarkButton from "../bookmark-button/bookmark-button.tsx";
+import BookmarkButton from '../bookmark-button/bookmark-button.tsx';
 
 type PlaceCardProps = {
   place: Offer;

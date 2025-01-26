@@ -1,12 +1,12 @@
 import { FormEvent, JSX, useEffect, useRef } from 'react';
-import { Helmet} from 'react-helmet-async';
+import { Helmet } from 'react-helmet-async';
 import Header from '../../components/header/header.tsx';
 import { useAppDispatch } from '../../hooks';
 import { loginAction } from '../../store/api-actions.ts';
 import { AppRoute, AuthorizationStatus } from '../../const.ts';
-import { redirectToRoute } from "../../store/action.ts";
-import { cities } from "../../const.ts";
-import {toast} from "react-toastify";
+import { redirectToRoute } from '../../store/action.ts';
+import { cities } from '../../const.ts';
+import LocationItem from '../../components/location-item/location-item.tsx';
 
 type LoginPageProps = {
   authorizationStatus: AuthorizationStatus;
@@ -20,30 +20,25 @@ function LoginPage({ authorizationStatus }: LoginPageProps): JSX.Element {
   const getRandomCity = () => {
     const randomCity = cities[Math.floor(Math.random() * cities.length)];
     return randomCity.name;
-  }
+  };
 
   useEffect(() => {
     if (authorizationStatus === AuthorizationStatus.Auth) {
       dispatch(redirectToRoute(AppRoute.Main));
     }
-  }, []);
+  }, [authorizationStatus, dispatch]);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      if (loginRef.current !== null && passwordRef.current !== null) {
-        await dispatch(loginAction({
-          email: loginRef.current.value,
-          password: passwordRef.current.value
-        })).unwrap();
-      }
-      dispatch((redirectToRoute(AppRoute.Main)));
-    } catch (error) {
-      if (error instanceof Error) {
-        toast.error(`'Login failed: ${error.message}`);
-      } else {
-        toast.error('Login failed: An unknown error occurred');
-      }
+    if (loginRef.current !== null && passwordRef.current !== null) {
+      dispatch(loginAction({
+        email: loginRef.current.value,
+        password: passwordRef.current.value
+      }))
+        .unwrap()
+        .then(() => {
+          dispatch((redirectToRoute(AppRoute.Main)));
+        });
     }
   };
 
@@ -94,11 +89,7 @@ function LoginPage({ authorizationStatus }: LoginPageProps): JSX.Element {
             </form>
           </section>
           <section className="locations locations--login locations--current">
-            <div className="locations__item">
-              <a className="locations__item-link" href="#">
-                <span>{getRandomCity()}</span>
-              </a>
-            </div>
+            <LocationItem name={getRandomCity()} isActive isLogin />
           </section>
         </div>
       </main>

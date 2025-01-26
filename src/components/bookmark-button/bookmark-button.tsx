@@ -1,20 +1,19 @@
-import {JSX, useMemo, useState} from 'react';
-import {useNavigate} from "react-router-dom";
-import {useAppDispatch, useAppSelector} from "../../hooks";
-import {getAuthorizationStatus} from "../../store/user-process/selectors.ts";
-import {AppRoute, AuthorizationStatus} from "../../const.ts";
-import cn from "classnames";
-import {BookmarkSettings} from "./bookmark-setting.ts";
-import {uploadFavoriteStatusAction} from "../../store/api-actions.ts";
-import {selectIsOfferFavorite} from "../../store/favorite-process/selectors.ts";
+import { JSX, useMemo, useState } from 'react';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { getAuthorizationStatus } from '../../store/user-process/selectors.ts';
+import { AppRoute, AuthorizationStatus } from '../../const.ts';
+import cn from 'classnames';
+import { BookmarkSettings } from './bookmark-setting.ts';
+import { uploadFavoriteStatusAction } from '../../store/api-actions.ts';
+import { selectIsOfferFavorite } from '../../store/favorite-process/selectors.ts';
+import { redirectToRoute } from '../../store/action.ts';
 
 type BookmarkButtonProps = {
   bookmarkClass: string;
   offerId: string;
 }
 
-function BookmarkButton({ bookmarkClass, offerId }: BookmarkButtonProps): JSX.Element{
-  const navigate = useNavigate();
+function BookmarkButton({ bookmarkClass, offerId }: BookmarkButtonProps): JSX.Element {
   const dispatch = useAppDispatch();
   const authStatus = useAppSelector(getAuthorizationStatus);
   const [disableButton, setDisableButton] = useState<boolean>(false);
@@ -22,7 +21,6 @@ function BookmarkButton({ bookmarkClass, offerId }: BookmarkButtonProps): JSX.El
   const isFavorite = useAppSelector((state) => selectIsOfferFavorite(state, offerId));
 
   const handleButtonClick = () => {
-    console.log(isFavorite);
     if (isAuthorized) {
       setDisableButton(true);
       dispatch(uploadFavoriteStatusAction({ offerId, isFavorite }))
@@ -30,7 +28,7 @@ function BookmarkButton({ bookmarkClass, offerId }: BookmarkButtonProps): JSX.El
           setDisableButton(false);
         });
     } else {
-      navigate(AppRoute.Login);
+      dispatch(redirectToRoute(AppRoute.Login));
     }
   };
   return (

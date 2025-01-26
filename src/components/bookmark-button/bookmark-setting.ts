@@ -1,4 +1,4 @@
-import { ProportionsType } from "../../types/offer.ts";
+import { ProportionsType } from '../../types/offer.ts';
 
 export const BookmarkSettings: ProportionsType = {
   'place-card': {

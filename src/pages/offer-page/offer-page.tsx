@@ -10,7 +10,8 @@ import Neighbourhood from '../../components/neighbourhood/neighbourhood.tsx';
 import { Review } from '../../types/review.ts';
 import NotFoundPage from '../not-found-page/not-found-page.tsx';
 import { Setting } from '../../const.ts';
-import { checkErrorStatus, getNearbyData, getOfferData, getReviewData } from '../../store/offer-process/selectors.ts';
+import { checkErrorStatus, getNearbyData, getOfferData } from '../../store/offer-process/selectors.ts';
+import { getReviewData } from '../../store/review-process/selectors.ts';
 
 function OfferPage(): JSX.Element {
   const { id } = useParams<{ id: string }>();
