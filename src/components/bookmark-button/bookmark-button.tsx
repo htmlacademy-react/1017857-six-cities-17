@@ -37,8 +37,8 @@ function BookmarkButton({ bookmarkClass, offerId }: BookmarkButtonProps): JSX.El
       className={
         cn(
           `${bookmarkClass}__bookmark-button`,
+          { [`${bookmarkClass}__bookmark-button--active`]: isFavorite && isAuthorized },
           'button',
-          { [`${bookmarkClass}__bookmark-button--active`]: isFavorite && isAuthorized }
         )
       }
       onClick={handleButtonClick}

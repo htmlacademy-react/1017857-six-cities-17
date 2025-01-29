@@ -5,6 +5,7 @@ import { Review } from '../../types/review.ts';
 import { AuthorizationStatus, Setting } from '../../const.ts';
 import { useAppSelector } from '../../hooks';
 import { getOfferData } from '../../store/offer-process/selectors.ts';
+import { getLatestReviews } from '../../utils.ts';
 
 type ReviewsProps = {
   reviewsData?: Review[];
@@ -12,7 +13,7 @@ type ReviewsProps = {
 }
 
 function Reviews({ reviewsData, authorizationStatus }: ReviewsProps): JSX.Element {
-  const displayedReviews = reviewsData ? reviewsData.slice(-Setting.MaxReviews).reverse() : [];
+  const displayedReviews = reviewsData ? getLatestReviews(reviewsData, Setting.MaxReviews) : [];
   const offerData = useAppSelector(getOfferData);
   const offerId = offerData ? offerData.id : null;
   return (

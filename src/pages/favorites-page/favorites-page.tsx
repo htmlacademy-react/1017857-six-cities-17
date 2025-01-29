@@ -21,7 +21,11 @@ function FavoritesPage({ offers }: FavoritesPageProps): JSX.Element {
   }
 
   return (
-    <div className="page">
+    <div className={cn(
+      'page',
+      { 'page--favorites-empty': favoriteOffers.length === 0 }
+    )}
+    >
       <Helmet>
         <title>6 cities: favorites</title>
       </Helmet>

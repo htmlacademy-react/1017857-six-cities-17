@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions.ts';
 import { isReviewPending } from '../../store/review-process/selectors.ts';
 import { setReviewIdleStatus } from '../../store/review-process/review-process.tsx';
+import {toast} from "react-toastify";
 
 type ReviewFormProps = {
   offerId: string;
@@ -16,9 +17,9 @@ function ReviewForm({ offerId }: ReviewFormProps) {
   const [comment, setComment] = useState<string>('');
   const isLoading = useAppSelector(isReviewPending);
 
-  const isFormValid = rating !== null && comment.length >= 50 && comment.length <= 300;
+  const isFormValid = rating !== null && comment.length > 50 && comment.length <= 300;
 
-  const handleRatingChange = (value: number) => {
+  const handleRatingChange = (value: number | null) => {
     setRating(value);
   };
 
@@ -26,22 +27,19 @@ function ReviewForm({ offerId }: ReviewFormProps) {
     setComment(event.target.value);
   };
 
-  const handleSubmit = (event: FormEvent) => {
+  const handleSubmit = async (event: FormEvent) => {
     event.preventDefault();
     if (isFormValid) {
-      dispatch(postReviewAction({
-        offerId,
-        comment,
-        rating,
-      }))
-        .unwrap()
-        .then(() => {
-          setRating(null);
-          setComment('');
-        })
-        .finally(() => {
-          dispatch(setReviewIdleStatus());
-        });
+      try {
+        await dispatch(postReviewAction({ offerId, comment, rating })).unwrap();
+        setRating(null);
+        setComment('');
+        formRef.current?.reset();
+      } catch (err) {
+        toast.error('Something went wrong. Please try again.'); // Показываем ошибку
+      } finally {
+        dispatch(setReviewIdleStatus());
+      }
     }
   };
 
@@ -51,7 +49,7 @@ function ReviewForm({ offerId }: ReviewFormProps) {
       action="#"
       method="post"
       ref={formRef}
-      onSubmit={handleSubmit}
+      onSubmit={ handleSubmit }
     >
       <label className="reviews__label form__label" htmlFor="review">
         Your review
@@ -121,12 +119,12 @@ function ReviewForm({ offerId }: ReviewFormProps) {
           className="form__rating-input visually-hidden"
           name="rating"
           value="1"
-          id="1-star"
+          id="1-stars"
           type="radio"
           onChange={() => handleRatingChange(1)}
           disabled={isLoading}
         />
-        <label htmlFor="1-star" className="reviews__rating-label form__rating-label" title="terribly">
+        <label htmlFor="1-stars" className="reviews__rating-label form__rating-label" title="terribly">
           <svg className="form__star-image" width="37" height="33">
             <use xlinkHref="#icon-star"></use>
           </svg>
