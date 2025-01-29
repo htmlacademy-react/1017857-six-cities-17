@@ -43,7 +43,7 @@ function Map(props: MapProps) {
       markersLayer.current = leaflet.layerGroup();
     }
 
-    if (!map.hasLayer(markersLayer.current)) {
+    if (markersLayer.current && !map.hasLayer(markersLayer.current)) {
       markersLayer.current.addTo(map);
     }
 
@@ -58,7 +58,7 @@ function Map(props: MapProps) {
         }
       );
 
-      marker.addTo(markersLayer.current);
+      marker.addTo(markersLayer.current!);
     });
   }, [map, points, selectedPointId]);
 

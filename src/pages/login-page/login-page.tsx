@@ -1,4 +1,4 @@
-import { FormEvent, JSX, useEffect, useRef } from 'react';
+import { FormEvent, JSX, useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import Header from '../../components/header/header.tsx';
 import { useAppDispatch } from '../../hooks';
@@ -7,14 +7,15 @@ import { AppRoute, AuthorizationStatus } from '../../const.ts';
 import { redirectToRoute } from '../../store/action.ts';
 import { cities } from '../../const.ts';
 import LocationItem from '../../components/location-item/location-item.tsx';
+import { toast } from 'react-toastify';
 
 type LoginPageProps = {
   authorizationStatus: AuthorizationStatus;
 }
 
 function LoginPage({ authorizationStatus }: LoginPageProps): JSX.Element {
-  const loginRef = useRef<HTMLInputElement | null>(null);
-  const passwordRef = useRef<HTMLInputElement | null>(null);
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const dispatch = useAppDispatch();
 
   const getRandomCity = () => {
@@ -28,17 +29,15 @@ function LoginPage({ authorizationStatus }: LoginPageProps): JSX.Element {
     }
   }, [authorizationStatus, dispatch]);
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (loginRef.current !== null && passwordRef.current !== null) {
-      dispatch(loginAction({
-        email: loginRef.current.value,
-        password: passwordRef.current.value
-      }))
-        .unwrap()
-        .then(() => {
-          dispatch((redirectToRoute(AppRoute.Main)));
-        });
+
+
+    try {
+      await dispatch(loginAction({ email, password })).unwrap();
+      dispatch(redirectToRoute(AppRoute.Main));
+    } catch (err) {
+      toast.error('Неверный email или пароль'); // Сохраняем сообщение об ошибке
     }
   };
 
@@ -60,23 +59,24 @@ function LoginPage({ authorizationStatus }: LoginPageProps): JSX.Element {
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">E-mail</label>
                 <input
-                  ref={loginRef}
                   className="login__input form__input"
                   type="email"
                   name="email"
                   placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
               <div className="login__input-wrapper form__input-wrapper">
                 <label className="visually-hidden">Password</label>
                 <input
-                  ref={passwordRef}
                   className="login__input form__input"
                   type="password"
                   name="password"
                   placeholder="Password"
-                  autoComplete='current-password'
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
                   required
                 />
               </div>

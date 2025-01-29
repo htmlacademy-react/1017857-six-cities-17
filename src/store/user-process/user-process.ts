@@ -32,7 +32,7 @@ export const userProcess = createSlice({
         const { token, ...userData } = action.payload;
         setToken(token);
         state.userData = userData;
-        toast.success('Login successful');
+        // toast.success('Login successful');
       })
       .addCase(loginAction.rejected, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;
