@@ -1,6 +1,8 @@
 import { City, Offer } from './types/offer.ts';
+import { Setting } from './const.ts';
+import { Review } from './types/review.ts';
 
-const convertRating = (rating: number) => rating * 100 / 5;
+const convertRating = (rating: number) => Math.round(rating) * 100 / 5;
 
 const sortOffersByPriceAscending = (offers: Offer[]): Offer[] => offers.sort((a, b) => a.price - b.price);
 const sortOffersByPriceDescending = (offers: Offer[]): Offer[] => offers.sort((a, b) => b.price - a.price);
@@ -14,5 +16,31 @@ const getDefaultCity = (cityName: string, places: City[]): City => {
   return city;
 };
 
+const getNearOffers = (offers: Offer[], allOffers: Offer[], id: string| undefined)=> {
+  if (!id) {
+    return null;
+  }
+  const neighbourhoodCount = Setting.NeighbourhoodCount;
+  const currentOffer = allOffers.find((offer) => offer.id === id);
+  const slicedOffers = offers.slice(0, neighbourhoodCount);
+  const nearbyOffers = [...slicedOffers, currentOffer];
 
-export { convertRating, sortOffersByPriceAscending, sortOffersByPriceDescending, sortOffersByRating, getDefaultCity };
+  return {
+    slicedOffers,
+    nearbyOffers
+  };
+};
+
+const getLatestReviews = (reviews: Review[], count: number): Review[] => [...reviews]
+  .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+  .slice(0, count);
+
+export {
+  convertRating,
+  sortOffersByPriceAscending,
+  sortOffersByPriceDescending,
+  sortOffersByRating,
+  getDefaultCity,
+  getNearOffers,
+  getLatestReviews
+};

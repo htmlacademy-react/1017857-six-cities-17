@@ -4,16 +4,17 @@ import Map from '../map/map.tsx';
 import PlacesSection from '../places-section/places-section.tsx';
 import NoPlacesSection from '../no-places-secton/no-places-section.tsx';
 import cn from 'classnames';
+import { Setting } from '../../const.ts';
 
 type PlacesProps = {
-  offers: Offer[];
+  points: Offer[];
   city: City;
 }
 
-function Places({ offers, city }: PlacesProps): JSX.Element {
-  const points: Offer[] = offers.filter((offer) => offer.city.name === city.name);
-  const pointsCount = points.length;
+function Places({ points, city }: PlacesProps): JSX.Element {
   const [selectedPointId, setSelectedPointId] = useState<string | null>(null);
+  const pointsCount = points.length;
+  const pointsList = points.slice(0, Setting.PlaceCardCount);
   const handleListItemHover = (id: string | null) => {
     setSelectedPointId(id);
   };
@@ -26,10 +27,10 @@ function Places({ offers, city }: PlacesProps): JSX.Element {
       )}
       >
         {pointsCount > 0 ?
-          <PlacesSection points={points} city={city} onListItemHover={handleListItemHover} /> :
+          <PlacesSection points={pointsList} city={city} onListItemHover={handleListItemHover} /> :
           <NoPlacesSection city={city.name} />}
         <div className="cities__right-section">
-          {pointsCount > 0 && <Map key={city.name} city={city.location} points={points} selectedPointId={selectedPointId} variant={'cities'}/>}
+          {pointsCount > 0 && <Map key={city.name} city={city.location} points={pointsList} selectedPointId={selectedPointId} variant={'cities'}/>}
         </div>
       </div>
     </div>

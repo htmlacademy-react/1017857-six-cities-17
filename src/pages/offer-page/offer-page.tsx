@@ -29,7 +29,7 @@ function OfferPage(): JSX.Element {
   const offerData: OfferExtended | null = useAppSelector(getOfferData);
   const nearbyData: Offer[] | null = useAppSelector(getNearbyData);
   const reviewData: Review[] | null = useAppSelector(getReviewData);
-  const nearbyList = nearbyData?.slice(0, neighbourhoodCount);
+  const nearbyList = nearbyData.length > 3 ? nearbyData?.slice(0, neighbourhoodCount) : nearbyData;
 
   if (isErrorOffer) {
     return <NotFoundPage />;
@@ -42,8 +42,8 @@ function OfferPage(): JSX.Element {
       </Helmet>
       <Header/>
       <main className="page__main page__main--offer">
-        {(offerData && true) && <OfferCard currentOffer={offerData} reviewsData={reviewData} neighbourhoods={nearbyList}/>}
-        {(offerData && true) && <Neighbourhood places={nearbyList}/>}
+        {offerData && <OfferCard currentOffer={offerData} reviewsData={reviewData} neighbourhoods={nearbyList}/>}
+        {offerData && <Neighbourhood places={nearbyList}/>}
       </main>
     </div>
   );

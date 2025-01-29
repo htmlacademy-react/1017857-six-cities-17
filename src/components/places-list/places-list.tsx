@@ -3,14 +3,19 @@ import PlaceCard from '../place-card/place-card.tsx';
 import { Offer } from '../../types/offer.ts';
 
 type PlacesListProps = {
-  placeCardCount: number;
+  isNearby?: boolean;
   places: Offer[];
   onListItemHover: (offerId: string | null) => void;
 }
 
-function PlacesList({ places, placeCardCount, onListItemHover }: PlacesListProps): JSX.Element {
+function PlacesList({ places, onListItemHover, isNearby }: PlacesListProps): JSX.Element {
   const [activeOffer, setActiveOffer] = useState<string | null>(null);
-  const placesList = places.slice(0, placeCardCount);
+  let placesList: Offer[] = [];
+  if (isNearby) {
+    placesList = places.slice(0, 3);
+  } else {
+    placesList = places;
+  }
   const handleListItemHover = (offerId: string | null) => {
     setActiveOffer(offerId);
     onListItemHover(offerId);
@@ -26,7 +31,7 @@ function PlacesList({ places, placeCardCount, onListItemHover }: PlacesListProps
           onHover={handleListItemHover}
           variant={'cities'}
         />
-      ))};
+      ))}
     </div>
   );
 }

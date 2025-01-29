@@ -1,4 +1,4 @@
-import leaflet, { Icon } from 'leaflet';
+import leaflet, { Icon, LayerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap.ts';
@@ -30,21 +30,36 @@ function Map(props: MapProps) {
   const mapRef = useRef(null);
   const map = useMap({ mapRef, city });
 
+  const markersLayer = useRef<LayerGroup | null>(null);
+
   useEffect(() => {
-    if (map) {
-      points.forEach((point) => {
-        leaflet
-          .marker({
-            lat: point.location.latitude,
-            lng: point.location.longitude,
-          }, {
-            icon: (point.id !== null && point.id === selectedPointId)
-              ? currentCustomIcon
-              : defaultCustomIcon,
-          })
-          .addTo(map);
-      });
+    if (!map) {
+      return;
     }
+
+    if (markersLayer.current) {
+      markersLayer.current.clearLayers();
+    } else {
+      markersLayer.current = leaflet.layerGroup();
+    }
+
+    if (markersLayer.current && !map.hasLayer(markersLayer.current)) {
+      markersLayer.current.addTo(map);
+    }
+
+    points.forEach((point) => {
+      const marker = leaflet.marker(
+        {
+          lat: point.location.latitude,
+          lng: point.location.longitude,
+        },
+        {
+          icon: point.id === selectedPointId ? currentCustomIcon : defaultCustomIcon,
+        }
+      );
+
+      marker.addTo(markersLayer.current!);
+    });
   }, [map, points, selectedPointId]);
 
   return (

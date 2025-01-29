@@ -38,7 +38,7 @@ function PlaceCard({ place, activeId, onHover, variant }: PlaceCardProps): JSX.E
         'place-card__image-wrapper'
       )}
       >
-        <a href="#">
+        <Link to={`/offer/${place.id}`}>
           <img
             className="place-card__image"
             src={place.previewImage}
@@ -46,7 +46,7 @@ function PlaceCard({ place, activeId, onHover, variant }: PlaceCardProps): JSX.E
             height={variant === 'favorites' ? '110' : '200'}
             alt="Place image"
           />
-        </a>
+        </Link>
       </div>
       <div className={cn(
         { 'favorites__card-info-wrapper': variant === 'favorites' },
@@ -67,7 +67,7 @@ function PlaceCard({ place, activeId, onHover, variant }: PlaceCardProps): JSX.E
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${place.id}`}>${place.title}</Link>
+          <Link to={`/offer/${place.id}`}>{place.title}</Link>
         </h2>
         <p className="place-card__type">{place.type}</p>
       </div>

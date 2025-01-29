@@ -19,7 +19,7 @@ function Neighbourhood({ places }: NeighbourhoodProps): JSX.Element {
               place={place}
               variant={'near'}
             />
-          ))};
+          ))}
         </div>
       </section>
     </div>
