@@ -1,6 +1,6 @@
 import { City, Offer } from './types/offer.ts';
-import {Setting} from "./const.ts";
-import {Review} from "./types/review.ts";
+import { Setting } from './const.ts';
+import { Review } from './types/review.ts';
 
 const convertRating = (rating: number) => Math.round(rating) * 100 / 5;
 

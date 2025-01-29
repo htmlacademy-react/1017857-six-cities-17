@@ -29,16 +29,17 @@ function LoginPage({ authorizationStatus }: LoginPageProps): JSX.Element {
     }
   }, [authorizationStatus, dispatch]);
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-
-    try {
-      await dispatch(loginAction({ email, password })).unwrap();
-      dispatch(redirectToRoute(AppRoute.Main));
-    } catch (err) {
-      toast.error('Неверный email или пароль'); // Сохраняем сообщение об ошибке
-    }
+    dispatch(loginAction({ email, password }))
+      .unwrap()
+      .then(() => {
+        dispatch(redirectToRoute(AppRoute.Main));
+      })
+      .catch(() => {
+        toast.error('Неверный email или пароль');
+      });
   };
 
   return (

@@ -3,7 +3,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { postReviewAction } from '../../store/api-actions.ts';
 import { isReviewPending } from '../../store/review-process/selectors.ts';
 import { setReviewIdleStatus } from '../../store/review-process/review-process.tsx';
-import {toast} from "react-toastify";
+import { toast } from 'react-toastify';
 
 type ReviewFormProps = {
   offerId: string;
@@ -27,20 +27,24 @@ function ReviewForm({ offerId }: ReviewFormProps) {
     setComment(event.target.value);
   };
 
-  const handleSubmit = async (event: FormEvent) => {
+  const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
-    if (isFormValid) {
+    if (!isFormValid) {
+      return;
+    }
+
+    (async () => {
       try {
         await dispatch(postReviewAction({ offerId, comment, rating })).unwrap();
         setRating(null);
         setComment('');
         formRef.current?.reset();
       } catch (err) {
-        toast.error('Something went wrong. Please try again.'); // Показываем ошибку
+        toast.error('Something went wrong. Please try again.');
       } finally {
         dispatch(setReviewIdleStatus());
       }
-    }
+    })();
   };
 
   return (

@@ -118,16 +118,18 @@ export const logoutAction = createAsyncThunk<void, undefined, {
 
 export const uploadFavoriteStatusAction = createAsyncThunk<Offer, Favorite, {
   dispatch: AppDispatch;
-  stata: State;
+  state: State;
   extra: AxiosInstance;
 }>(
   `${NameSpaces.Favorite}/uploadStatus`,
   async ({ offerId, isFavorite }, { getState, extra: api }) => {
-    const offerStatus = Number(!isFavorite);
+    const offerStatus = isFavorite ? 0 : 1;
     const { data } = await api.post<Offer>(`${APIRoute.Favorites}/${offerId}/${offerStatus}`);
-    const state = getState() as State;
+
+    const state = getState();
     const { places } = state[NameSpaces.Place];
     const currentPlace: Offer | undefined = places.find((place: Offer) => place.id === data.id);
+
     if (!currentPlace) {
       throw new Error(`Offer not found: ${data.id}`);
     }

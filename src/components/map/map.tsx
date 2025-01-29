@@ -1,4 +1,4 @@
-import leaflet, {Icon, LayerGroup} from 'leaflet';
+import leaflet, { Icon, LayerGroup } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/useMap.ts';

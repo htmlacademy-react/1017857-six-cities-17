@@ -4,7 +4,7 @@ import Map from '../map/map.tsx';
 import PlacesSection from '../places-section/places-section.tsx';
 import NoPlacesSection from '../no-places-secton/no-places-section.tsx';
 import cn from 'classnames';
-import {Setting} from "../../const.ts";
+import { Setting } from '../../const.ts';
 
 type PlacesProps = {
   points: Offer[];

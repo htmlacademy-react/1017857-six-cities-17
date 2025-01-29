@@ -1,7 +1,7 @@
 import { City } from './types/offer.ts';
 
 export const Setting = {
-  PlaceCardCount: 2,
+  PlaceCardCount: 20,
   NeighbourhoodCount: 3,
   MaxReviews: 10
 };

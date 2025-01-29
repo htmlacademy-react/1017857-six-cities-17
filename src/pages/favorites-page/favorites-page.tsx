@@ -1,20 +1,16 @@
 import { JSX } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { Offer } from '../../types/offer.ts';
 import Header from '../../components/header/header.tsx';
 import FavoritesList from '../../components/favorites-list/favorites-list.tsx';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty.tsx';
 import cn from 'classnames';
 import { useAppSelector } from '../../hooks';
-import { isFavoritePending } from '../../store/favorite-process/selectors.ts';
+import { isFavoritePending, selectFavoriteOffers } from '../../store/favorite-process/selectors.ts';
 import LoadingScreen from '../../components/loading-screen/loading-screen.tsx';
 
-type FavoritesPageProps = {
-  offers: Offer[];
-}
 
-function FavoritesPage({ offers }: FavoritesPageProps): JSX.Element {
-  const favoriteOffers: Offer[] = offers.filter((offer) => offer.isFavorite);
+function FavoritesPage(): JSX.Element {
+  const favoriteOffers = useAppSelector(selectFavoriteOffers);
   const isLoading = useAppSelector(isFavoritePending);
   if (isLoading) {
     return <LoadingScreen />;
@@ -38,7 +34,7 @@ function FavoritesPage({ offers }: FavoritesPageProps): JSX.Element {
       >
         <div className="page__favorites-container container">
           { favoriteOffers.length > 0 ?
-            <FavoritesList favoriteOffers={favoriteOffers}/> :
+            <FavoritesList favoriteOffers={favoriteOffers} /> :
             <FavoritesEmpty /> }
         </div>
       </main>
