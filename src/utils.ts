@@ -1,5 +1,4 @@
 import { City, Offer } from './types/offer.ts';
-import { Setting } from './const.ts';
 import { Review } from './types/review.ts';
 
 const convertRating = (rating: number) => Math.round(rating) * 100 / 5;
@@ -16,24 +15,11 @@ const getDefaultCity = (cityName: string, places: City[]): City => {
   return city;
 };
 
-const getNearOffers = (offers: Offer[], allOffers: Offer[], id: string| undefined)=> {
-  if (!id) {
-    return null;
-  }
-  const neighbourhoodCount = Setting.NeighbourhoodCount;
-  const currentOffer = allOffers.find((offer) => offer.id === id);
-  const slicedOffers = offers.slice(0, neighbourhoodCount);
-  const nearbyOffers = [...slicedOffers, currentOffer];
-
-  return {
-    slicedOffers,
-    nearbyOffers
-  };
-};
-
 const getLatestReviews = (reviews: Review[], count: number): Review[] => [...reviews]
   .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
   .slice(0, count);
+
+const capitalizeFirstLetter = (str: string) => str.charAt(0).toUpperCase() + str.slice(1);
 
 export {
   convertRating,
@@ -41,6 +27,6 @@ export {
   sortOffersByPriceDescending,
   sortOffersByRating,
   getDefaultCity,
-  getNearOffers,
-  getLatestReviews
+  getLatestReviews,
+  capitalizeFirstLetter,
 };

@@ -1,4 +1,4 @@
-import { AuthorizationStatus, NameSpaces } from '../../const.ts';
+import { AuthorizationStatus, NameSpace } from '../../const.ts';
 import { UserProcess } from '../../types/state.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import { checkAuthAction, loginAction, logoutAction } from '../api-actions.ts';
@@ -11,7 +11,7 @@ const initialState: UserProcess = {
 };
 
 export const userProcess = createSlice({
-  name: NameSpaces.User,
+  name: NameSpace.User,
   initialState,
   reducers: {},
   extraReducers(builder) {
@@ -32,7 +32,6 @@ export const userProcess = createSlice({
         const { token, ...userData } = action.payload;
         setToken(token);
         state.userData = userData;
-        // toast.success('Login successful');
       })
       .addCase(loginAction.rejected, (state, action) => {
         state.authorizationStatus = AuthorizationStatus.NoAuth;

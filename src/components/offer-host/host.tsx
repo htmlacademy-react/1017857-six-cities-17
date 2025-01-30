@@ -28,7 +28,10 @@ function OfferHost({ host, description }: HostProps) {
         {isPro && <span className="offer__user-status">Pro</span>}
       </div>
       <div className="offer__description">
-        {description}
+        {description.split("\n").map((paragraph, index) => (
+          <p className="offer__text" key={index}>
+            {paragraph}
+          </p>))}
       </div>
     </div>
   );

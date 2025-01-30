@@ -1,7 +1,7 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 import { FavoriteProcess } from '../../types/state';
-import { NameSpaces, Status } from '../../const';
+import { NameSpace, Status } from '../../const';
 import { fetchFavoriteOffersAction, uploadFavoriteStatusAction } from '../api-actions';
 
 const initialState: FavoriteProcess = {
@@ -11,7 +11,7 @@ const initialState: FavoriteProcess = {
 };
 
 export const favoriteProcess = createSlice({
-  name: NameSpaces.Favorite,
+  name: NameSpace.Favorite,
   initialState,
   reducers: {},
   extraReducers(builder) {

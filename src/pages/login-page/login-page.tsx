@@ -90,7 +90,7 @@ function LoginPage({ authorizationStatus }: LoginPageProps): JSX.Element {
             </form>
           </section>
           <section className="locations locations--login locations--current">
-            <LocationItem name={getRandomCity()} isActive isLogin />
+            <LocationItem name={getRandomCity()} isActive variant={'login'} />
           </section>
         </div>
       </main>

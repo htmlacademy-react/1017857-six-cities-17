@@ -1,7 +1,7 @@
 import { JSX } from 'react';
 import { Offer } from '../../types/offer.ts';
 import { Link } from 'react-router-dom';
-import { convertRating } from '../../utils.ts';
+import { capitalizeFirstLetter, convertRating } from '../../utils.ts';
 import cn from 'classnames';
 import BookmarkButton from '../bookmark-button/bookmark-button.tsx';
 
@@ -69,7 +69,7 @@ function PlaceCard({ place, activeId, onHover, variant }: PlaceCardProps): JSX.E
         <h2 className="place-card__name">
           <Link to={`/offer/${place.id}`}>{place.title}</Link>
         </h2>
-        <p className="place-card__type">{place.type}</p>
+        <p className="place-card__type">{capitalizeFirstLetter(place.type)}</p>
       </div>
     </article>
   );

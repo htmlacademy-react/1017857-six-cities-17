@@ -3,18 +3,18 @@ import LocationLink from '../location-link/location-link.tsx';
 type LocationProps = {
   name: string;
   isActive: boolean;
-  isLogin?: boolean;
+  variant: 'tab' | 'favorite' | 'login';
 }
 
-function LocationItem({ name, isActive, isLogin }: LocationProps) {
+function LocationItem({ name, isActive, variant }: LocationProps) {
 
   return (
-    isLogin ? (
+    variant === 'login' ? (
       <div className="locations__item">
-        <LocationLink name={name} isLogin/>
+        <LocationLink name={name} variant={variant}/>
       </div>) : (
       <li className="locations__item">
-        <LocationLink isActive={isActive} name={name}/>
+        <LocationLink isActive={isActive} name={name} variant={variant}/>
       </li>)
   );
 }
