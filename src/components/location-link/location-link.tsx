@@ -7,14 +7,14 @@ import React from 'react';
 
 type LocationLinkProps = {
   isActive?: boolean;
-  isLogin?: boolean;
   name: string;
+  variant: 'tab' | 'favorite' | 'login';
 }
 
-function LocationLink({ isActive, name, isLogin }: LocationLinkProps) {
+function LocationLink({ isActive, name, variant }: LocationLinkProps) {
   const dispatch = useAppDispatch();
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    if (!isLogin) {
+    if (variant === 'tab') {
       e.preventDefault();
     }
     const cityName: string = String(e.currentTarget.innerText);
@@ -25,9 +25,8 @@ function LocationLink({ isActive, name, isLogin }: LocationLinkProps) {
   return (
     <Link className={cn(
       'locations__item-link',
-      { 'tabs__item': !isLogin },
-      { 'tabs__item--active': isActive },
-      { 'locations__item-link': isLogin }
+      { 'tabs__item': variant === 'tab' },
+      { 'tabs__item--active': variant === 'tab' && isActive },
     )}
     to={AppRoute.Main}
     onClick={handleClick}

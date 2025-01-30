@@ -1,5 +1,5 @@
 import { OfferProcess } from '../../types/state.ts';
-import { NameSpaces, Status } from '../../const.ts';
+import { NameSpace, Status } from '../../const.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchNearbyAction, fetchOfferByIdAction } from '../api-actions.ts';
 
@@ -10,7 +10,7 @@ const initialState: OfferProcess = {
 };
 
 export const offerProcess = createSlice({
-  name: NameSpaces.Offer,
+  name: NameSpace.Offer,
   initialState,
   reducers: {},
   extraReducers(builder) {

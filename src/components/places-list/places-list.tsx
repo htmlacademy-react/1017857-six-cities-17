@@ -1,6 +1,7 @@
 import { JSX, useState } from 'react';
 import PlaceCard from '../place-card/place-card.tsx';
 import { Offer } from '../../types/offer.ts';
+import { Setting } from '../../const.ts';
 
 type PlacesListProps = {
   isNearby?: boolean;
@@ -12,7 +13,7 @@ function PlacesList({ places, onListItemHover, isNearby }: PlacesListProps): JSX
   const [activeOffer, setActiveOffer] = useState<string | null>(null);
   let placesList: Offer[] = [];
   if (isNearby) {
-    placesList = places.slice(0, 3);
+    placesList = places.slice(0, Setting.NeighbourhoodCount);
   } else {
     placesList = places;
   }

@@ -7,6 +7,8 @@ import cn from 'classnames';
 import { useAppSelector } from '../../hooks';
 import { isFavoritePending, selectFavoriteOffers } from '../../store/favorite-process/selectors.ts';
 import LoadingScreen from '../../components/loading-screen/loading-screen.tsx';
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const.ts';
 
 
 function FavoritesPage(): JSX.Element {
@@ -39,9 +41,9 @@ function FavoritesPage(): JSX.Element {
         </div>
       </main>
       <footer className="footer container">
-        <a className="footer__logo-link" href={'main.html'}>
+        <Link to={AppRoute.Main} className="footer__logo-link">
           <img className="footer__logo" src={'img/logo.svg'} alt="6 cities logo" width="64" height="33" />
-        </a>
+        </Link>
       </footer>
     </div>
   );

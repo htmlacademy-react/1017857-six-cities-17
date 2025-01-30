@@ -28,7 +28,9 @@ function OfferHost({ host, description }: HostProps) {
         {isPro && <span className="offer__user-status">Pro</span>}
       </div>
       <div className="offer__description">
-        {description}
+        <p className="offer__text">
+          {description}
+        </p>
       </div>
     </div>
   );

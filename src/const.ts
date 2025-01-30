@@ -111,7 +111,7 @@ export enum APIRoute {
   Favorites = '/favorite'
 }
 
-export enum NameSpaces {
+export enum NameSpace {
   Offer = 'OFFER',
   Place = 'PLACE',
   User = 'USER',
