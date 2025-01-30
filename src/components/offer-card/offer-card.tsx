@@ -2,7 +2,7 @@ import Image from '../image/image.tsx';
 import { City, Offer, OfferExtended } from '../../types/offer.ts';
 import { capitalizeFirstLetter, convertRating } from '../../utils.ts';
 import WhatInside from '../what-inside/what-inside.tsx';
-import OfferHost from '../offer-host/host.tsx';
+import OfferHost from '../offer-host/offer-host.tsx';
 import Reviews from '../reviews/reviews.tsx';
 import { Review } from '../../types/review.ts';
 import Map from '../map/map.tsx';
