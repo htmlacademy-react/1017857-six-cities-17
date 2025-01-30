@@ -1,5 +1,5 @@
 import { ReviewProcess } from '../../types/state.ts';
-import { NameSpaces, Status } from '../../const.ts';
+import { NameSpace, Status } from '../../const.ts';
 import { createSlice } from '@reduxjs/toolkit';
 import { fetchReviewAction, postReviewAction } from '../api-actions.ts';
 import { toast } from 'react-toastify';
@@ -10,7 +10,7 @@ const initialState: ReviewProcess = {
 };
 
 export const reviewProcess = createSlice({
-  name: NameSpaces.Review,
+  name: NameSpace.Review,
   initialState,
   reducers: {
     setReviewIdleStatus: (state) => {

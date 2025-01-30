@@ -1,4 +1,4 @@
-import { cities, DEFAULT_CITY, NameSpaces, Status } from '../../const.ts';
+import { cities, DEFAULT_CITY, NameSpace, Status } from '../../const.ts';
 import { PlaceProcess } from '../../types/state.ts';
 import { getDefaultCity } from '../../utils.ts';
 import { createSlice } from '@reduxjs/toolkit';
@@ -12,7 +12,7 @@ const initialState: PlaceProcess = {
 };
 
 export const placesProcess = createSlice({
-  name: NameSpaces.Place,
+  name: NameSpace.Place,
   initialState,
   reducers: {
     selectLocation: (state, action: {payload: { locationName: string }}) => {
@@ -22,9 +22,6 @@ export const placesProcess = createSlice({
         state.city = { ...foundCity };
       }
     },
-    setPlacesIdleStatus: (state) => {
-      state.status = Status.Idle;
-    }
   },
   extraReducers(builder) {
     builder
@@ -43,4 +40,4 @@ export const placesProcess = createSlice({
   }
 });
 
-export const { selectLocation, setPlacesIdleStatus } = placesProcess.actions;
+export const { selectLocation } = placesProcess.actions;

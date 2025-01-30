@@ -13,7 +13,7 @@ function Locations({ locations }: LocationsProps) {
     <div className="tabs">
       <section className="locations container">
         <ul className="locations__list tabs__list">
-          {locations.map((item) => <LocationItem name={item.name} key={item.name} isActive={item.name === active}/>)}
+          {locations.map((item) => <LocationItem name={item.name} key={item.name} isActive={item.name === active} variant={'tab'}/>)}
         </ul>
       </section>
     </div>
